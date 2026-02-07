@@ -221,14 +221,14 @@
         }
         
         .hero h2 {
-            font-size: 3.2rem;
+            font-size: 3.0rem;
             margin-bottom: 20px;
             line-height: 1.2;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto 30px;
             opacity: 0.95;
@@ -311,7 +311,7 @@
         
         .what-is-text h3 {
             color: var(--dark);
-            font-size: 2rem;
+            font-size: 1.9rem;
             margin-bottom: 20px;
         }
         
@@ -514,79 +514,91 @@
             font-weight: bold;
         }
         
-        /* ===== GALERÍA DE ARTE INFANTIL ===== */
-        .art-section {
-            background-color: #f9f7f7;
-        }
-        
-        .art-description {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 50px;
-            font-size: 1.2rem;
-            color: var(--dark);
-        }
-        
-        .art-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .art-item {
-            background-color: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .art-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .art-image {
-            height: 250px;
-            background-color: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .art-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .art-item:hover .art-image img {
-            transform: scale(1.1);
-        }
-        
-        .art-info {
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .art-info h4 {
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-        
-        .art-info p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-        
-        .art-date {
-            font-size: 0.85rem;
-            color: #999;
-        }
-        
+		/* ======= GALERÍA DE ARTE - ESTILOS OPTIMIZADOS ======= */
+		#artGallery {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 1.5rem;
+			will-change: transform;
+		}
+
+		.art-item {
+			background: white;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			contain: content;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 10px;
+		}
+
+		.art-item:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+		}
+
+		.art-image {
+			height: 120px;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 10px;
+			background-color: #f8f9fa; /* Fondo por si no hay imagen */
+		}
+
+		.artwork-image {
+			max-height: 110px; /* TAMAÑO MÁXIMO - AJUSTA ESTE VALOR */
+			max-width: 90%;
+			width: auto;
+			height: auto;
+			object-fit: contain;
+			transition: transform 0.5s ease;
+		}
+
+		.art-item:hover .artwork-image {
+			transform: scale(1.05);
+		}
+
+		.art-info {
+			padding: 0.8rem;
+			width: 100%;
+			text-align: center;
+		}
+
+		.art-info h4 {
+			margin: 0 0 0.5rem 0;
+			font-size: 1rem; /* Un poco más pequeño */
+			color: var(--color-primary);
+			line-height: 1.3;
+		}
+
+		.art-info p {
+			margin: 0.2rem 0;
+			font-size: 0.85rem; /* Más pequeño */
+			color: var(--color-text);
+		}
+
+		.art-date {
+			color: var(--color-muted);
+			font-style: italic;
+			margin-top: 0.5rem;
+			font-size: 0.8rem;
+		}
+
+		/* Estilos específicos para Coco */
+		.art-item.coco-artwork {
+			border: 2px solid transparent;
+			transition: border-color 0.3s ease;
+		}
+
+		.art-item.coco-artwork:hover {
+			border-color: var(--color-primary);
+		}
+		/* ======= FIN DE ESTILOS OPTIMIZADOS ======= */
         /* ===== TESTIMONIOS ===== */
         .testimonials-container {
             max-width: 900px;
@@ -2361,13 +2373,13 @@ section{
         <div class="container">
             <div class="section-title">
                 <h2>¿Quiénes Somos?</h2>
-                <p>Un equipo multidisciplinario comprometido con el bienestar integral del ser humano</p>
+                <p>Un equipo multidisciplinario de profesionales de la salud comprometidos con el bienestar integral del ser humano</p>
             </div>
             
             <div class="about-content">
                 <div class="about-text">
                     <h3>Enfoque Integral</h3>
-                    <p>En CIMMCO somos un equipo multidisciplinario de profesionales de la salud comprometidos con el bienestar integral del ser humano. Nos especializamos en el diagnóstico, tratamiento y rehabilitación de condiciones neurocognitivas, emocionales y motrices, con un enfoque basado en la evidencia científica y en el respeto y el apoyo a la diversidad neurofuncional.</p>
+                    <p>Nos especializamos en el diagnóstico, tratamiento y rehabilitación de condiciones neurocognitivas, emocionales y motrices, con un enfoque basado en la evidencia científica y en el respeto y el apoyo a la diversidad neurofuncional.</p>
                     
                     <p>Desde nuestros inicios, hemos acompañado a niños, adolescentes y adultos en su camino hacia una vida más funcional, consciente y plena, integrando ciencia, tecnología y calidez humana en cada intervención.</p>
                     
@@ -2431,7 +2443,7 @@ section{
 							<h3>Dr.C. Jorge Bosch-Bayard</h3>
 						</a>                       
                         <p class="member-specialty">Creador de Kinestesia. Investigador Titular. Director de CIMMCO</p>
-                        <p class="member-bio">Neurocientífico. Doctor en Ciencias de la Salud. Especialista en análisis cuantitativo del EEG, conectivididad cerebral, neuromodulación y neuro-rehabilitación.</p>
+                        <p class="member-bio">Neurocientífico. Doctor en Ciencias de la Salud. Especialista en análisis cuantitativo del EEG, conectivididad cerebral, neuromodulación y neuro-rehabilitación. Diseña y supervisa los programas de Kinestesia, integra objetivos motores y cognitivos. Responsable de los protocolos de registro y análisis cuantitativo del EEG.</p>
                     </div>
                 </div>
                 
@@ -2453,7 +2465,7 @@ section{
                     <div class="member-info">
                         <h3>Dra. Lilia Morales Chacón</h3>
                         <p class="member-specialty">Dra. en Medicina, Dra. en Ciencias. Investigadora Titular</p>
-                        <p class="member-bio">Especialista en Neurofisiología Clínica, diagnóstico y tratamiento de la <b>Epilepsia</b>, neuromodulación, electroencefalografía, integración sensorial y terapia infantil.</p>
+                        <p class="member-bio">Responsable de la integración diagnóstica, la formulación de caso y la coordinación terapéutica global. Especialista en Neurofisiología Clínica, diagnóstico y tratamiento de la <b>Epilepsia</b>, neuromodulación, electroencefalografía, integración sensorial y terapia infantil.</p>
                     </div>
                 </div>
                 
@@ -2462,7 +2474,12 @@ section{
                         <i class="fas fa-comments"></i>
                     </div>
                     <div class="member-info">
-                        <h3>Lic. Elisa Farias Mendoza</h3>
+						<a href="https://www.dna-consultoria.com" 
+						   target="_blank"
+						   rel="noopener noreferrer"
+						   style="text-decoration: underline; color: inherit;">
+								<h3>Lic. Elisa Farias Mendoza</h3>
+						</a>                       
                         <p class="member-specialty">Psicoeducadora, divulgadora y mentora</p>
                         <p class="member-bio">Detección tardía de TDAH, rasgos de autismo, altas capacidades y trauma complejo. Sobreviviente ASI. Creadora del blog «Neuroeducar con Amor» y de la Fundación Mente Neurodivergente. Conferenciante, imparte Talleres, Mentoría, Programas de Inclusión Escolar y Laboral.</p>
                     </div>
@@ -2519,7 +2536,18 @@ section{
 					<div class="member-info">
 						<h3>Lic. María Elena Álvarez Martínez</h3>
 						<p class="member-specialty">Psicóloga</p>
-						<p class="member-bio">Psicóloga clínica y educativa con especialidad en neuroterapia y psicomotricidad infantil</p>
+						<p class="member-bio">Psicóloga Clínica y Educativa. Especialidad en Neuroterapia y Psicomotricidad Infantil. Experiencia en el diagnóstico y seguimiento en trastornos del neurodesarrollo, como TEA, TDAH, TDC, entre otros. Acompañamiento psicológico y emocional. Diplomados en neurodesarrollo y tanatología. Impartición de talleres diversos, tanto para el ámbito escolar, como familiar.</p>
+					</div>
+				</div>
+
+				<div class="team-member">
+					<div class="member-image">
+						<i class="fas fa-gamepad"></i>
+					</div>
+					<div class="member-info">
+						<h3>Dra.C. Andrea Amaya Arzaga</h3>
+						<p class="member-specialty">Lic. en alteraciones de la audición y el lenguaje</p>
+						<p class="member-bio">Maestra y Doctora en Ciencias en Lingüística. Docente universitaria. Estudia los procesos cognitivos y su relación con el desarrollo linguístico. Especialista en evaluación, diagnóstico y terapia de los trastornos del lenguaje. </p>
 					</div>
 				</div>
 
@@ -2795,7 +2823,7 @@ section{
             </div>
             
             <div class="art-description">
-                <p>En CIMMCO creemos en el poder terapéutico del arte. Cada niño tiene su propio espacio para expresarse creativamente, compartir sus obras y fortalecer su autoestima a través de la creación artística. Estas son algunas de las obras creadas por nuestros pequeños artistas.</p>
+                <p>En CIMMCO creemos en el poder terapéutico del arte. Cada niño tiene su propio espacio para expresarse creativamente, compartir sus obras y fortalecer su autoestima a través de la creación artística. Aquí mostramos algunas de las obras creadas por nuestros pequeños artistas.</p>
             </div>
             
             <div class="art-gallery" id="artGallery">
@@ -4481,68 +4509,306 @@ section{
             };
         }
         
-        // ===== GALERÍA DE ARTE INFANTIL =====
-        function initArtGallery() {
-            const artGallery = document.getElementById('artGallery');
-            
-            const artWorks = [
-                {
-                    title: "Mi familia feliz",
-                    author: "María",
-                    age: "8 años",
-                    medium: "Acuarela",
-                    date: "Mayo 2023",
-                    color: "#FFB6C1"
-                },
-                {
-                    title: "El árbol de los sueños",
-                    author: "Carlos",
-                    age: "10 años",
-                    medium: "Témpera",
-                    date: "Abril 2023",
-                    color: "#98FB98"
-                },
-                {
-                    title: "Arcoíris sobre la ciudad",
-                    author: "Ana",
-                    age: "7 años",
-                    medium: "Crayones",
-                    date: "Junio 2023",
-                    color: "#87CEEB"
-                },
-                {
-                    title: "El mundo submarino",
-                    author: "Diego",
-                    age: "9 años",
-                    medium: "Collage",
-                    date: "Marzo 2023",
-                    color: "#DDA0DD"
-                }
-            ];
-            
-            artWorks.forEach(art => {
-                const artItem = document.createElement('div');
-                artItem.className = 'art-item';
-                artItem.innerHTML = `
-                    <div class="art-image" style="background-color: ${art.color};">
-                        <i class="fas fa-palette" style="color: white; font-size: 4rem;"></i>
-                    </div>
-                    <div class="art-info">
-                        <h4>${art.title}</h4>
-                        <p>${art.author}, ${art.age}</p>
-                        <p><strong>Técnica:</strong> ${art.medium}</p>
-                        <p class="art-date">${art.date}</p>
-                    </div>
-                `;
-                artGallery.appendChild(artItem);
-                
-                // Hacer clic para ver más detalles
-                artItem.addEventListener('click', function() {
-                    alert(`Obra: ${art.title}\nArtista: ${art.author}, ${art.age}\nTécnica: ${art.medium}\nFecha: ${art.date}\n\n"(EN CONSTRUCCION). Esta obra fue creada durante las sesiones de terapia artística en CIMMCO."`);
-                });
-            });
-        }
-        
+		// ===== GALERÍA DE ARTE INFANTIL OPTIMIZADA =====
+		// ===== SISTEMA DE GALERÍA ESCALABLE =====
+		// Configuración centralizada de artistas y sus páginas
+		const artistConfig = {
+			// Mapeo de artistas a sus páginas
+			pages: {
+				'coco': 'arte/coco.html',
+				'carloandre': 'arte/carlo-andre.html',
+				'carlo andre': 'arte/carlo-andre.html',
+				'carlo': 'arte/carlo-andre.html'
+				// Añade nuevos artistas aquí fácilmente
+			},
+			
+			// Textos personalizados para cada artista
+			messages: {
+				'coco': 'Visita la Galería de Coco',
+				'carloandre': 'Visita la Galería de Carlo André',
+				'carlo andre': 'Visita la Galería de Carlo André',
+				'carlo': 'Visita la Galería de Carlo André'
+				// Añade mensajes personalizados aquí
+			},
+			
+			// Clases CSS específicas por artista (opcional)
+			classes: {
+				'coco': 'coco-artwork',
+				'carloandre': 'carlo-artwork',
+				'carlo andre': 'carlo-artwork',
+				'carlo': 'carlo-artwork'
+			}
+		};
+
+		// ===== FUNCIÓN PRINCIPAL OPTIMIZADA =====
+		function initArtGallery() {
+			const artGallery = document.getElementById('artGallery');
+			
+			// DATOS DE LAS OBRAS - AHORA MÁS FÁCIL DE MANTENER
+			const artWorks = [
+				{
+					id: 'coco-1',
+					title: "El osado The White Deer y The White Butterfly",
+					author: "Coco",
+					age: "15 años",
+					medium: "Plumón, 2023",
+					date: "2023",
+					color: "#FFB6C1",
+					image: "arte/coco2.png",
+					artistKey: "coco"  // Clave para mapear con la configuración
+				},
+				{
+					id: 'carlo-1',
+					title: "El árbol de los sueños",
+					author: "Carlo-André",
+					age: "10 años",
+					medium: "Imagen de IA inspirada en Carlo André",
+					date: "2023",
+					color: "#98FB98",
+					image: "arte/Semillas de Sabiduria.png",
+					artistKey: "carloandre"
+				},
+				{
+					id: 'ana-1',
+					title: "Arcoíris sobre la ciudad",
+					author: "Ana",
+					age: "7 años",
+					medium: "Crayones",
+					date: "Junio 2023",
+					color: "#87CEEB",
+					image: "arte/default.jpg",
+					artistKey: "ana"  // Si no tiene página, no se necesita mapeo
+				},
+				{
+					id: 'diego-1',
+					title: "El mundo submarino",
+					author: "Diego",
+					age: "9 años",
+					medium: "Collage",
+					date: "Marzo 2023",
+					color: "#DDA0DD",
+					image: "arte/default.jpg",
+					artistKey: "diego"
+				}
+				// Para añadir nuevo artista: copia un objeto y cambia los valores
+			];
+			
+			// ===== FUNCIONES AUXILIARES =====
+			
+			// Función para normalizar nombres (para comparaciones)
+			function normalizeName(name) {
+				return name.toLowerCase()
+					.replace(/[áäà]/g, 'a')
+					.replace(/[éëè]/g, 'e')
+					.replace(/[íïì]/g, 'i')
+					.replace(/[óöò]/g, 'o')
+					.replace(/[úüù]/g, 'u')
+					.replace(/[ñ]/g, 'n')
+					.trim();
+			}
+			
+			// Función para obtener la página de un artista
+			function getArtistPage(artistKey) {
+				return artistConfig.pages[artistKey] || null;
+			}
+			
+			// Función para obtener el mensaje personalizado
+			function getArtistMessage(artistKey) {
+				return artistConfig.messages[artistKey] || `Visita más obras de ${artistKey}`;
+			}
+			
+			// Función para obtener clases CSS específicas
+			function getArtistClasses(artistKey) {
+				return artistConfig.classes[artistKey] || '';
+			}
+			
+			// Función para verificar si un artista tiene página
+			function hasArtistPage(artistKey) {
+				return artistKey in artistConfig.pages;
+			}
+			
+			// ===== RENDERIZADO DE LA GALERÍA =====
+			
+			// Crear HTML para todas las obras
+			const artItemsHTML = artWorks.map((art, index) => {
+				const normalizedKey = normalizeName(art.artistKey || art.author);
+				const hasPage = hasArtistPage(normalizedKey);
+				const artistClasses = getArtistClasses(normalizedKey);
+				const message = hasPage ? getArtistMessage(normalizedKey) : art.date;
+				
+				// Determinar estilos y atributos
+				const clickableStyle = hasPage ? 'cursor: pointer;' : '';
+				const clickableTitle = hasPage ? `title="Ver galería de ${art.author}"` : '';
+				const pageClass = hasPage ? ' has-artist-page' : '';
+				const specificClass = artistClasses ? ` ${artistClasses}` : '';
+				
+				return `
+					<div class="art-item${pageClass}${specificClass}" 
+						 data-index="${index}" 
+						 data-artist-key="${normalizedKey}"
+						 style="${clickableStyle}"
+						 ${clickableTitle}>
+						<div class="art-image" style="background-color: ${art.color};">
+							<img src="${art.image}" 
+								 alt="Pintura de ${art.author}" 
+								 class="artwork-image"
+								 loading="lazy">
+						</div>
+						<div class="art-info">
+							<h4>${art.title}</h4>
+							<p>${art.author}, ${art.age}</p>
+							<p><strong>Técnica:</strong> ${art.medium}</p>
+							<p class="art-date">${message}</p>
+						</div>
+					</div>
+				`;
+			}).join('');
+			
+			// Insertar todo de una vez (mejor rendimiento)
+			artGallery.innerHTML = artItemsHTML;
+			
+			// ===== MANEJO DE EVENTOS =====
+			
+			// Delegación de eventos para mejor rendimiento
+			artGallery.addEventListener('click', function(event) {
+				const artItem = event.target.closest('.art-item');
+				if (!artItem) return;
+				
+				const index = artItem.getAttribute('data-index');
+				const artistKey = artItem.getAttribute('data-artist-key');
+				const art = artWorks[index];
+				
+				// Verificar si este artista tiene página
+				const artistPage = getArtistPage(artistKey);
+				
+				if (artistPage) {
+					// Redirigir a la página del artista
+					window.location.href = artistPage;
+				} else {
+					// Mostrar alerta para artistas sin página
+					alert(`Obra: ${art.title}\nArtista: ${art.author}, ${art.age}\nTécnica: ${art.medium}\n\n"(EN CONSTRUCCIÓN). Esta obra fue creada durante las sesiones de terapia artística en CIMMCO."`);
+				}
+			});
+			
+			// ===== FUNCIONES PÚBLICAS (para uso externo si es necesario) =====
+			
+			// Función para añadir nuevo artista dinámicamente
+			window.addArtistPage = function(artistName, pageUrl, customMessage = null, cssClass = null) {
+				const normalized = normalizeName(artistName);
+				
+				// Añadir a la configuración
+				artistConfig.pages[normalized] = pageUrl;
+				
+				if (customMessage) {
+					artistConfig.messages[normalized] = customMessage;
+				}
+				
+				if (cssClass) {
+					artistConfig.classes[normalized] = cssClass;
+				}
+				
+				console.log(`Página añadida para ${artistName}: ${pageUrl}`);
+			};
+			
+			// Función para añadir nueva obra dinámicamente
+			window.addArtwork = function(artwork) {
+				// Validar obra
+				if (!artwork.id || !artwork.author) {
+					console.error('La obra necesita al menos id y autor');
+					return;
+				}
+				
+				// Añadir clave de artista normalizada
+				artwork.artistKey = normalizeName(artwork.artistKey || artwork.author);
+				
+				// Añadir a la lista
+				artWorks.push(artwork);
+				
+				// Re-renderizar la galería
+				renderGallery();
+				
+				console.log(`Obra añadida: ${artwork.title} de ${artwork.author}`);
+			};
+			
+			// Función para re-renderizar (útil después de añadir obras)
+			function renderGallery() {
+				// Similar a la lógica de renderizado anterior
+				const newHTML = artWorks.map((art, index) => {
+					// ... misma lógica de renderizado
+				}).join('');
+				
+				artGallery.innerHTML = newHTML;
+			}
+			
+			// ===== INICIALIZACIÓN ADICIONAL =====
+			
+			// Opcional: Añadir indicador visual para artistas con página
+			const artItems = artGallery.querySelectorAll('.art-item.has-artist-page');
+			artItems.forEach(item => {
+				// Añadir icono o indicador visual
+				const infoDiv = item.querySelector('.art-info');
+				if (infoDiv) {
+					const icon = document.createElement('span');
+					icon.innerHTML = ' 🎨';
+					icon.style.color = 'var(--color-primary)';
+					icon.title = 'Tiene galería completa';
+					infoDiv.querySelector('h4').appendChild(icon);
+				}
+			});
+			
+			console.log('Galería inicializada con', artWorks.length, 'obras');
+			console.log('Artistas con página:', Object.keys(artistConfig.pages));
+		}
+
+		// ===== INICIALIZACIÓN =====
+
+		// Versión segura de inicialización
+		function initGallerySafely() {
+			try {
+				if (document.getElementById('artGallery')) {
+					initArtGallery();
+				} else {
+					console.warn('Elemento artGallery no encontrado, reintentando...');
+					setTimeout(initGallerySafely, 100);
+				}
+			} catch (error) {
+				console.error('Error inicializando la galería:', error);
+			}
+		}
+
+		// Iniciar cuando el DOM esté listo
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initGallerySafely);
+		} else {
+			initGallerySafely();
+		}
+
+		// ===== EJEMPLO DE USO PARA AÑADIR NUEVOS ARTISTAS =====
+		/*
+		// Después de cargar la página, puedes añadir nuevos artistas así:
+
+		// 1. Añadir página para un nuevo artista
+		addArtistPage(
+			'Carlo-André',                    // Nombre del artista
+			'arte/carlo-andre.html',          // URL de su página
+			'Visita la Galería de Carlo André', // Mensaje personalizado
+			'carlo-artwork'                   // Clase CSS específica
+		);
+
+		// 2. Añadir una nueva obra
+		addArtwork({
+			id: 'nuevo-1',
+			title: "Mi nueva obra",
+			author: "Carlo-André",
+			age: "10 años",
+			medium: "Acuarela",
+			date: "2024",
+			color: "#FFD700",
+			image: "arte/nueva-obra.jpg",
+			artistKey: "carloandre"
+		});
+		*/
+
         // ===== BLOG =====
         function initBlogPosts() {
             const blogGrid = document.getElementById('blogGrid');

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrés – Pequeños Creadores de CIMMCO</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos específicos para el libro de Andrés */
+    .book-container {
+      display: grid;
+      grid-template-columns: 50% 52%;
+      gap: 3%;
+      align-items: start;
+      margin-top: 2rem;
+    }
+    
+    .book-viewer {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      height: fit-content;
+    }
+    
+    .book-image-container {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: #f8f9fa;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .book-page-image {
+      max-width: 100%;
+      max-height: 500px;
+      height: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    
+    .book-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-button {
+      padding: 10px 20px;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+    }
+    
+    .nav-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .page-counter {
+      font-weight: 500;
+      color: var(--color-text);
+      background: rgba(0, 0, 0, 0.05);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+    
+    .book-thumbnails {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 8px;
+    }
+    
+    .thumbnail {
+      width: 100%;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .thumbnail:hover {
+      transform: scale(1.05);
+      border-color: var(--color-primary);
+    }
+    
+    .thumbnail.active {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.3);
+    }
+    
+    .book-title {
+      text-align: center;
+      margin: 1rem 0;
+      font-size: 1.4rem;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    
+    .zoom-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    
+    .zoom-button {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .zoom-button:hover {
+      background: #f0f0f0;
+    }
+    
+    .book-page-image.zoomed {
+      transform: scale(1.5);
+      cursor: move;
+    }
+    
+    @media (max-width: 1024px) {
+      .book-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .book-thumbnails {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .book-thumbnails {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .nav-button span {
+        display: none;
+      }
+      
+      .nav-button {
+        padding: 10px 15px;
+      }
+    }
+    
+    /* Animación de pasar página */
+    @keyframes pageTurn {
+      from { opacity: 0.5; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .page-turn {
+      animation: pageTurn 0.3s ease-out;
+    }
+    
+    /* Snail theme */
+    .snail-decoration {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .snail-1 { top: 10%; left: 5%; }
+    .snail-2 { top: 20%; right: 10%; }
+    .snail-3 { bottom: 15%; left: 15%; }
+    
+    .snail-fun-fact {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      text-align: center;
+      font-style: italic;
+    }
+	.cimmco-image {
+	  /* Esto asegura que la transparencia de la PNG se muestre */
+	  background-color: transparent !important;
+	  
+	  /* Opcional: para que la imagen se adapte bien */
+	  max-width: 30%;
+	  height: auto;
+	  
+	  /* Opcional: para eliminar cualquier borde o fondo */
+	  border: none;
+	  box-shadow: none;
+	  
+	  /* Opcional: modo de mezcla si es necesario */
+	  mix-blend-mode: normal;
+	}
+	
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="logo">
+        <img src="cimmco_img_noBG.png" class="cimmco-image" />
+      </div>
+      <nav>
+        <div class="nav-toggle" onclick="toggleNav()">☰</div>
+        <ul id="nav-menu">
+          <li><a href="../index.html#arte">← Volver a CIMMCO</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main style="padding-top:2rem;">
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Pequeños Creadores de CIMMCO</div>
+          <h1 class="section-title">Andrés</h1>
+          <p class="section-subtitle">
+            Andrés es un niño curioso de 8 años que siempre ha sentido fascinación por la naturaleza, especialmente por los pequeños animales que encuentra en el jardín. Su observación paciente y su creatividad le han llevado a crear este maravilloso libroilustrado lleno de curiosidades y datos sorprendentes sobre estos fascinantes animales.
+          </p>
+        </div>
+
+        <div class="book-container">
+          <!-- Columna izquierda - Información de Andrés -->
+          <div class="left-column">
+            <div class="card">
+              <div class="card-tag">¡PERO NO HA SIDO SOLO EL!</div>
+              <p>
+                Andrés se rodea de un grupo entrañable de amigos que comparten su misma afición y curiosidad por estos animales, y lo acompañan en este excitante viaje.
+              </p>
+              <p>
+			  En "Caracoles, todo lo que debes saber", nuestros pequeños científicos —Andrés, Miguel, Ángela, Nicolás, Irene, Seán, Hilda, Darío, Leonardo, Mia Isabella, Luciana, Jacinto, Maia, Moisés y Antonella—, junto a la maestra Miriam Julieta, nos demuestran que la curiosidad infantil puede convertirse en conocimiento profundo. Con respeto y entusiasmo, han investigado —con lupa en mano y espíritu aventurero— la vida de los caracoles, su comportamiento, hábitat y encuentros con el entorno. El resultado es una obra llena de cariño, rigor y aprendizaje, que ya forma parte de la Colección Sabiduría de nuestra escuela.
+              </p>
+              <p>
+                A través de sus ilustraciones y textos, Andrés y sus amigos nos invitan a descubrir 
+                el fascinante mundo de los caracoles, mostrando que incluso los seres 
+                más pequeños tienen historias increíbles que contar.
+              </p>
+			  Este libro no solo comparte datos científicos, también nos invita a explorar el mundo natural con asombro y responsabilidad. Esperamos que "Caracoles, todo lo que debes saber" inspire a otros niños, familias y maestros a descubrir, preguntar y crear sus propias historias científicas. Porque la ciencia comienza con una pregunta, pero es la pasión, el trabajo en equipo y la dedicación lo que nos lleva a las respuestas. ¡Enhorabuena, pequeños exploradores!
+              </p>
+            </div>
+            
+            <div class="card" style="margin-top:1rem;">
+              <div class="card-tag">El proyecto "Caracoles"</div>
+              <p>
+                Este libro digital de 33 páginas es el resultado de meses de observación, 
+                investigación y creatividad. Cada página combina ilustraciones coloridas 
+                con datos curiosos sobre la vida de los caracoles.
+              </p>
+              <p>
+                Este gran grupo de amigos trabajó de manera entusiaste en este proyecto, 
+                desarrollando no solo sus habilidades artísticas, sino también su paciencia, 
+                atención al detalle y amor por la naturaleza.
+              </p>
+              
+              <div class="snail-fun-fact">
+                🐌 <strong>¿Sabías que?</strong> Los caracoles pueden dormir hasta 3 años seguidos.
+              </div>
+            </div>
+            
+            <div class="card" style="margin-top:1rem;">
+              <div class="card-tag">Datos técnicos del libro</div>
+              <ul style="color: var(--color-text); line-height: 1.6;">
+                <li>📖 <strong>33 páginas</strong> ilustradas a todo color</li>
+                <li>🎨 <strong>Técnica:</strong> Dibujo digital</li>
+                <li>📅 <strong>Fecha de creación:</strong> 2024</li>
+                <li>🎯 <strong>Edad recomendada:</strong> 5-12 años</li>
+                <li>🏆 <strong>Logro:</strong> Primer libro publicado por estos autores</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Columna derecha - Visor del libro -->
+          <div class="right-column">
+            <div class="book-viewer">
+              <h2 class="book-title">Caracoles. Todo lo que debes saber</h2>
+              <p style="text-align: center; color: var(--color-muted); margin-bottom: 1rem;">
+                Un libro ilustrado por Andrés y sus amigos
+              </p>
+              
+              <!-- Contenedor principal de la página -->
+              <div class="book-image-container">
+                <!-- Decoraciones de caracoles -->
+                <div class="snail-decoration snail-1">🐌</div>
+                <div class="snail-decoration snail-2">🐌</div>
+                <div class="snail-decoration snail-3">🐌</div>
+                
+                <!-- Imagen de la página actual -->
+                <img id="currentPage" src="./1.jpg" alt="Página 1 del libro de caracoles" 
+                     class="book-page-image page-turn" />
+              </div>
+              
+              <!-- Controles de zoom -->
+              <div class="zoom-controls">
+                <button class="zoom-button" onclick="zoomIn()">🔍 Acercar</button>
+                <button class="zoom-button" onclick="zoomOut()">🔎 Alejar</button>
+                <button class="zoom-button" onclick="resetZoom()">↺ Normal</button>
+              </div>
+              
+              <!-- Navegación principal -->
+              <div class="book-nav">
+                <button id="prevButton" class="nav-button" onclick="previousPage()">
+                  ← <span>Anterior</span>
+                </button>
+                
+                <div class="page-counter">
+                  Página <span id="currentPageNum">1</span> de <span id="totalPages">33</span>
+                </div>
+                
+                <button id="nextButton" class="nav-button" onclick="nextPage()">
+                  <span>Siguiente</span> →
+                </button>
+              </div>
+              
+              <!-- Miniaturas de todas las páginas -->
+              <div class="book-thumbnails" id="thumbnailContainer">
+                <!-- Las miniaturas se generan con JavaScript -->
+              </div>
+              
+              <!-- Modo presentación automática -->
+              <div style="text-align: center; margin-top: 1.5rem;">
+                <button id="slideshowButton" class="nav-button" onclick="toggleSlideshow()">
+                  ▶ <span>Presentación automática</span>
+                </button>
+                <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: 0.5rem;">
+                  Disfruta del libro como un cuento (cambia de página cada 10 segundos)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        © <span id="year"></span> CIMMCO · Pequeños Creadores – Andrés.
+      </div>
+      <div class="footer-links">
+        <a href="../index.html#arte">Volver a CIMMCO</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== CONFIGURACIÓN DEL LIBRO =====
+    const totalPages = 33;
+    let currentPage = 1;
+    let isZoomed = false;
+    let slideshowInterval = null;
+    let zoomLevel = 1;
+    
+    // ===== FUNCIONES PRINCIPALES =====
+    
+    function loadPage(pageNumber) {
+      if (pageNumber < 1 || pageNumber > totalPages) return;
+      
+      currentPage = pageNumber;
+      const pageImage = document.getElementById('currentPage');
+      const pageNumDisplay = document.getElementById('currentPageNum');
+      
+      // Añadir animación
+      pageImage.classList.add('page-turn');
+      
+      // Cargar nueva imagen
+      pageImage.src = `./${pageNumber}.jpg`;
+      pageImage.alt = `Página ${pageNumber} del libro de caracoles`;
+      pageNumDisplay.textContent = pageNumber;
+      
+      // Actualizar botones
+      document.getElementById('prevButton').disabled = pageNumber === 1;
+      document.getElementById('nextButton').disabled = pageNumber === totalPages;
+      
+      // Actualizar miniatura activa
+      updateActiveThumbnail();
+      
+      // Remover animación después de completarse
+      setTimeout(() => {
+        pageImage.classList.remove('page-turn');
+      }, 300);
+    }
+    
+    function nextPage() {
+      if (currentPage < totalPages) {
+        loadPage(currentPage + 1);
+      }
+    }
+    
+    function previousPage() {
+      if (currentPage > 1) {
+        loadPage(currentPage - 1);
+      }
+    }
+    
+    function zoomIn() {
+      const pageImage = document.getElementById('currentPage');
+      zoomLevel = Math.min(zoomLevel + 0.5, 3);
+      pageImage.style.transform = `scale(${zoomLevel})`;
+      pageImage.classList.add('zoomed');
+      isZoomed = true;
+    }
+    
+    function zoomOut() {
+      const pageImage = document.getElementById('currentPage');
+      zoomLevel = Math.max(zoomLevel - 0.5, 1);
+      pageImage.style.transform = `scale(${zoomLevel})`;
+      if (zoomLevel === 1) {
+        pageImage.classList.remove('zoomed');
+        isZoomed = false;
+      }
+    }
+    
+    function resetZoom() {
+      const pageImage = document.getElementById('currentPage');
+      zoomLevel = 1;
+      pageImage.style.transform = 'scale(1)';
+      pageImage.classList.remove('zoomed');
+      isZoomed = false;
+    }
+    
+    function toggleSlideshow() {
+      const button = document.getElementById('slideshowButton');
+      
+      if (slideshowInterval) {
+        // Detener presentación
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+        button.innerHTML = '▶ <span>Presentación automática</span>';
+      } else {
+        // Iniciar presentación
+        slideshowInterval = setInterval(() => {
+          if (currentPage < totalPages) {
+            nextPage();
+          } else {
+            // Volver al inicio si llegamos al final
+            loadPage(1);
+          }
+        }, 10000); // 10 segundos por página
+        
+        button.innerHTML = '⏸ <span>Detener presentación</span>';
+      }
+    }
+    
+    function generateThumbnails() {
+      const container = document.getElementById('thumbnailContainer');
+      container.innerHTML = '';
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = `./${i}.jpg`;
+        thumbnail.alt = `Página ${i}`;
+        thumbnail.className = 'thumbnail';
+        thumbnail.dataset.page = i;
+        
+        if (i === currentPage) {
+          thumbnail.classList.add('active');
+        }
+        
+        thumbnail.addEventListener('click', () => {
+          loadPage(i);
+          resetZoom();
+        });
+        
+        container.appendChild(thumbnail);
+      }
+    }
+    
+    function updateActiveThumbnail() {
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+        if (parseInt(thumb.dataset.page) === currentPage) {
+          thumb.classList.add('active');
+        }
+      });
+    }
+    
+    // ===== NAVEGACIÓN CON TECLADO =====
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'ArrowRight':
+        case ' ':
+          e.preventDefault();
+          nextPage();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          previousPage();
+          break;
+        case '+':
+          e.preventDefault();
+          zoomIn();
+          break;
+        case '-':
+          e.preventDefault();
+          zoomOut();
+          break;
+        case '0':
+          e.preventDefault();
+          resetZoom();
+          break;
+        case 's':
+        case 'S':
+          e.preventDefault();
+          toggleSlideshow();
+          break;
+      }
+    });
+    
+    // ===== INICIALIZACIÓN =====
+    function initBookViewer() {
+      // Configurar página total
+      document.getElementById('totalPages').textContent = totalPages;
+      
+      // Generar miniaturas
+      generateThumbnails();
+      
+      // Configurar botones iniciales
+      document.getElementById('prevButton').disabled = true;
+      
+      // Año actual en footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+      
+      // Mensaje de bienvenida
+      console.log('Libro de Andrés cargado. Usa las flechas ← → para navegar.');
+    }
+    
+    // Función para el menú responsive
+    function toggleNav() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('open');
+    }
+    
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBookViewer);
+    } else {
+      initBookViewer();
+    }
+  </script>
+</body>
+</html>

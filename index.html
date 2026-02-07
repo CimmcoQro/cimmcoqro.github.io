@@ -4515,10 +4515,11 @@ section{
 		const artistConfig = {
 			// Mapeo de artistas a sus páginas
 			pages: {
-				'coco': '/arte/coco.html',
-				'carloandre': '/arte/carlo-andre.html',
-				'carlo andre': '/arte/carlo-andre.html',
-				'carlo': '/arte/carlo-andre.html'
+				'coco': './arte/coco.html',
+				'carloandre': './arte/carlo-andre.html',
+				'carlo andre': './arte/carlo-andre.html',
+				'carlo': './arte/carlo-andre.html',
+				'andres': './arte/andres.html'  // NUEVO
 				// Añade nuevos artistas aquí fácilmente
 			},
 			
@@ -4527,7 +4528,8 @@ section{
 				'coco': 'Visita la Galería de Coco',
 				'carloandre': 'Visita la Galería de Carlo André',
 				'carlo andre': 'Visita la Galería de Carlo André',
-				'carlo': 'Visita la Galería de Carlo André'
+				'carlo': 'Visita la Galería de Carlo André',
+				'andres': '¡Descubre el libro de Caracoles!'  // NUEVO
 				// Añade mensajes personalizados aquí
 			},
 			
@@ -4536,7 +4538,8 @@ section{
 				'coco': 'coco-artwork',
 				'carloandre': 'carlo-artwork',
 				'carlo andre': 'carlo-artwork',
-				'carlo': 'carlo-artwork'
+				'carlo': 'carlo-artwork',
+				'andres': 'andres-artwork'  // NUEVO
 			}
 		};
 
@@ -4554,7 +4557,7 @@ section{
 					medium: "Plumón, 2023",
 					date: "2023",
 					color: "#FFB6C1",
-					image: "/arte/Coco2.png",
+					image: "./arte/Coco2.png",
 					artistKey: "coco"  // Clave para mapear con la configuración
 				},
 				{
@@ -4565,8 +4568,19 @@ section{
 					medium: "Imagen de IA inspirada en Carlo André",
 					date: "2023",
 					color: "#98FB98",
-					image: "/arte/Semillas de Sabiduria.png",
+					image: "./arte/Semillas de Sabiduria.png",
 					artistKey: "carloandre"
+				},
+				{
+					id: 'andres-1',
+					title: "Caracoles. Todo lo que debes saber",
+					author: "Andrés",
+					age: "8 años",
+					medium: "Libro ilustrado digital",
+					date: "2024",
+					color: "#FFD700",  // Dorado como los caracoles
+					image: "./arte/1.jpg",  // Primera página como portada
+					artistKey: "andres"
 				},
 				{
 					id: 'ana-1',
@@ -4576,7 +4590,7 @@ section{
 					medium: "Crayones",
 					date: "Junio 2023",
 					color: "#87CEEB",
-					image: "/arte/default.jpg",
+					image: "./arte/default.jpg",
 					artistKey: "ana"  // Si no tiene página, no se necesita mapeo
 				},
 				{
@@ -4587,7 +4601,7 @@ section{
 					medium: "Collage",
 					date: "Marzo 2023",
 					color: "#DDA0DD",
-					image: "/arte/default.jpg",
+					image: "./arte/default.jpg",
 					artistKey: "diego"
 				}
 				// Para añadir nuevo artista: copia un objeto y cambia los valores
@@ -4790,7 +4804,7 @@ section{
 		// 1. Añadir página para un nuevo artista
 		addArtistPage(
 			'Carlo-André',                    // Nombre del artista
-			'/arte/carlo-andre.html',          // URL de su página
+			'./arte/carlo-andre.html',          // URL de su página
 			'Visita la Galería de Carlo André', // Mensaje personalizado
 			'carlo-artwork'                   // Clase CSS específica
 		);
@@ -4804,7 +4818,7 @@ section{
 			medium: "Acuarela",
 			date: "2024",
 			color: "#FFD700",
-			image: "/arte/nueva-obra.jpg",
+			image: "./arte/nueva-obra.jpg",
 			artistKey: "carloandre"
 		});
 		*/

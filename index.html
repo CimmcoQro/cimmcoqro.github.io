@@ -598,6 +598,16 @@
 		.art-item.coco-artwork:hover {
 			border-color: var(--color-primary);
 		}
+		
+		/* Añade esto en los estilos de la galería infantil */
+		.art-item.karyme-artwork {
+			border-left: 4px solid #FFB6C1; /* Color rosa característico */
+		}
+
+		.art-item.karyme-artwork:hover {
+			border-color: #FF69B4; /* Rosa más intenso al hacer hover */
+		}
+
 		/* ======= FIN DE ESTILOS OPTIMIZADOS ======= */
         /* ===== TESTIMONIOS ===== */
         .testimonials-container {
@@ -2580,7 +2590,7 @@ section{
                     </div>
 					<div class="card">
 						<h3>Neurodesarrollo Infantil</h3>
-						<p>TDAH, autismo, trastornos del lenguaje, retardo en el aprendizaje, síndrome de Down, dificultades motoras/cognitivas.</p>
+						<p>TDAH, autismo, diferencias en el lenguaje, ritmos propios de aprendizaje, síndrome de Down y otras formas de neurodesarrollo. Acompañamos a niños y familias desde la Neurodiversidad, trabajando sobre apoyos, regulación sensorial y habilidades funcionales sin forzar la supresión de estereotipias o rasgos propios.</p>
 					</div>
                 </div>
                 
@@ -2589,8 +2599,8 @@ section{
 					<span class="card-icon">🧠</span>
                     </div>
 					<div class="card">
-						<h3>Daño Neurológico</h3>
-						<p>Post-ictus, traumatismos craneoencefálicos, dolor crónico, enfermedad neurodegenerativa.</p>
+						<h3>Daño Neurológico y discapacidad</h3>
+						<p>Personas con daño neurológico (ictus, traumatismos craneoencefálicos, enfermedades neurodegenerativas, dolor crónico) y discapacidad de origen neurológico. Intervenciones adaptadas al grado de afectación motora y cognitiva, con objetivos realistas y personalizados orientados a la independencia y a la mejor calidad de vida posible.</p>
 					</div>
                 </div>
                 
@@ -2600,7 +2610,8 @@ section{
                     </div>
                     <div class="card">
 						<h3>Salud Mental</h3>
-						<p>Ansiedad, depresión, trastornos del sueño, trauma complejo y estress post-traumático, estrés crónico.</p>
+						<p>Ansiedad, depresión, trastornos del sueño, trauma complejo y estrés postraumático, estrés crónico. Ofrecemos un espacio seguro para personas neurodivergentes, evitando interpretar sus rasgos (hiperfoco, movimiento, necesidad de rutina, introspección) como “síntomas” que haya que eliminar, y priorizando herramientas de autocuidado, agencia y autoafirmación.
+						</p>
                     </div>
                 </div>
                 
@@ -2610,9 +2621,20 @@ section{
                     </div>
                     <div class="card">
 						<h3>Adultos Mayores</h3>
-						<p>Deterioro cognitivo y motor, Parkinson, fragilidad. Promovemos el envejecimiento saludable.</p>
+						<p>Deterioro cognitivo y motor, Parkinson, fragilidad. Promovemos un envejecimiento saludable respetando los estilos cognitivos y sensoriales propios de cada persona, trabajando desde sus capacidades, su historia de vida y sus preferencias, no desde la comparación con un modelo único de funcionamiento.</p>
                     </div>
                 </div>
+				
+                <div class="team-member">
+                    <div class="member-image">
+						<span class="card-icon">♾️</span>
+                    </div>
+                    <div class="card">
+						<h3>Apoyo a la Neurodiversidad</h3>
+						<p>Acompañamiento a personas neurodivergentes (autismo, TDAH, dislexia, altas sensibilidades, perfiles mixtos) desde un enfoque neuroafirmativo: no buscamos “normalizar”, sino adaptar el entorno, reducir el malestar sensorial y emocional, potenciar fortalezas, fomentar autoaceptación y estrategias de autorregulación.</p>
+                    </div>
+                </div>
+
         </div>
     </section>
 
@@ -4509,7 +4531,6 @@ section{
             };
         }
         
-		// ===== GALERÍA DE ARTE INFANTIL OPTIMIZADA =====
 		// ===== SISTEMA DE GALERÍA ESCALABLE =====
 		// Configuración centralizada de artistas y sus páginas
 		const artistConfig = {
@@ -4519,17 +4540,19 @@ section{
 				'carloandre': './arte/carlo-andre.html',
 				'carlo andre': './arte/carlo-andre.html',
 				'carlo': './arte/carlo-andre.html',
-				'andres': './arte/andres.html'  // NUEVO
+				'andres': './arte/andres.html',  // NUEVO
+				'karyme': './arte/karyme.html'  // NUEVO
 				// Añade nuevos artistas aquí fácilmente
 			},
 			
 			// Textos personalizados para cada artista
 			messages: {
 				'coco': 'Visita la Galería de Coco',
-				'carloandre': 'Visita la Galería de Carlo André',
-				'carlo andre': 'Visita la Galería de Carlo André',
-				'carlo': 'Visita la Galería de Carlo André',
-				'andres': '¡Descubre el libro de Caracoles!'  // NUEVO
+				'carloandre': 'Conoce a Carlo André',
+				'carlo andre': 'Conoce a Carlo André',
+				'carlo': 'Conoce a Carlo André',
+				'andres': '¡Descubre el libro de Caracoles!',  // NUEVO
+				'karyme': 'Obras del corazón'  // NUEVO
 				// Añade mensajes personalizados aquí
 			},
 			
@@ -4539,7 +4562,8 @@ section{
 				'carloandre': 'carlo-artwork',
 				'carlo andre': 'carlo-artwork',
 				'carlo': 'carlo-artwork',
-				'andres': 'andres-artwork'  // NUEVO
+				'andres': 'andres-artwork',  // NUEVO
+				'karyme': 'karyme-artwork'  // NUEVO
 			}
 		};
 
@@ -4581,6 +4605,17 @@ section{
 					color: "#FFD700",  // Dorado como los caracoles
 					image: "./arte/1.jpg",  // Primera página como portada
 					artistKey: "andres"
+				},
+				{
+					id: 'karyme-1',
+					title: "Obras del corazón",
+					author: "Karyme, pequeña terapeuta",
+					age: "20 años",
+					medium: "Pinturas del alma",
+					date: "2024",
+					color: "#FFB6C1",
+					image: "./arte/karyme/cerca de ti.jpg",
+					artistKey: "karyme"
 				},
 				{
 					id: 'ana-1',

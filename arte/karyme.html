@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karyme – Pequeños Creadores de CIMMCO</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos específicos para la galería de Karyme */
+    .gallery-container {
+      display: grid;
+      grid-template-columns: 43% 55%;
+      gap: 3%;
+      align-items: start;
+      margin-top: 2rem;
+    }
+    
+    .art-viewer {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      height: fit-content;
+    }
+    
+    .art-image-container {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: #f8f9fa;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .artwork-image {
+      max-width: 100%;
+      max-height: 600px;
+      height: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    
+    .art-info-panel {
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-top: 1.5rem;
+      border-left: 4px solid var(--color-primary);
+    }
+    
+    .art-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .art-details {
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+    
+    .art-details p {
+      margin: 0.3rem 0;
+    }
+    
+    .gallery-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-button {
+      padding: 10px 20px;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+    }
+    
+    .nav-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .art-counter {
+      font-weight: 500;
+      color: var(--color-text);
+      background: rgba(0, 0, 0, 0.05);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+    
+    .gallery-thumbnails {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 8px;
+    }
+    
+    .thumbnail {
+      width: 100%;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .thumbnail:hover {
+      transform: scale(1.05);
+      border-color: var(--color-primary);
+    }
+    
+    .thumbnail.active {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.3);
+    }
+    
+    .gallery-title {
+      text-align: center;
+      margin: 1rem 0;
+      font-size: 1.4rem;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    
+    .zoom-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    
+    .zoom-button {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .zoom-button:hover {
+      background: #f0f0f0;
+    }
+    
+    .artwork-image.zoomed {
+      transform: scale(1.5);
+      cursor: move;
+    }
+    
+    .heart-decoration {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .heart-1 { top: 10%; left: 5%; }
+    .heart-2 { top: 20%; right: 10%; }
+    .heart-3 { bottom: 15%; left: 15%; }
+    
+    .art-fun-fact {
+      background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .cimmco-image {
+      background-color: transparent !important;
+      max-width: 30%;
+      height: auto;
+      border: none;
+      box-shadow: none;
+      mix-blend-mode: normal;
+    }
+    
+    @media (max-width: 1024px) {
+      .gallery-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .gallery-thumbnails {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .gallery-thumbnails {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .nav-button span {
+        display: none;
+      }
+      
+      .nav-button {
+        padding: 10px 15px;
+      }
+    }
+    
+    /* Animación de transición */
+    @keyframes artTransition {
+      from { opacity: 0.5; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .art-transition {
+      animation: artTransition 0.3s ease-out;
+    }
+    
+    /* Indicador de dedicación */
+    .dedication-indicator {
+      display: inline-block;
+      background: #FFB6C1;
+      color: #8B0000;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-left: 5px;
+    }
+    
+    /* Estado de carga */
+    .loading-info {
+      text-align: center;
+      color: var(--color-muted);
+      font-style: italic;
+      padding: 1rem;
+    }
+    
+    .error-message {
+      background: #FFEBEE;
+      color: #C62828;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="logo">
+        <img src="cimmco_img_noBG.png" class="cimmco-image" />
+      </div>
+      <nav>
+        <div class="nav-toggle" onclick="toggleNav()">☰</div>
+        <ul id="nav-menu">
+          <li><a href="../index.html#arte">← Volver a CIMMCO</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main style="padding-top:2rem;">
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Pequeños Creadores de CIMMCO</div>
+          <h1 class="section-title">Karyme</h1>
+          <p class="section-subtitle">
+            Karyme es una joven artista con un corazón lleno de emociones y colores. 
+            Cada una de sus pinturas es una ventana a sus sentimientos más profundos, 
+            expresados a través de pinceladas llenas de pasión y dedicación.
+          </p>
+        </div>
+
+        <div class="gallery-container">
+          <!-- Columna izquierda - Información de Karyme -->
+          <div class="left-column">
+            <div class="card">
+              <div class="card-tag">Sobre Karyme</div>
+              <p>
+                Karyme encuentra en la pintura su forma más auténtica de comunicación. 
+                Cada lienzo es una historia, cada color una emoción, y cada trazo 
+                un pedazo de su alma compartida con el mundo.
+              </p>
+              <p>
+                Su arte es caracterizado por la intensidad emocional y la dedicación 
+                especial que pone en cada obra. Karyme no solo pinta; escribe cartas 
+                de amor en forma de arte, dedicando sus creaciones a las personas 
+                más importantes en su vida.
+              </p>
+            </div>
+            
+            <div class="card" style="margin-top:1rem;">
+              <div class="card-tag">Su proceso creativo</div>
+              <p>
+                Karyme comienza cada obra con una emoción fuerte que necesita expresar. 
+                Selecciona cuidadosamente los colores que representan sus sentimientos 
+                y dedica horas a capturar exactamente lo que lleva en su corazón.
+              </p>
+              <p>
+                Lo más especial de su proceso es que cada pintura lleva una dedicatoria. 
+                Karyme piensa en alguien especial mientras pinta, y al finalizar, 
+                escribe un mensaje personal que acompaña la obra.
+              </p>
+              
+              <div class="art-fun-fact">
+                🎨 <strong>¿Sabías que?</strong> Karyme mezcla sus propios colores para crear tonos únicos que representen emociones específicas.
+              </div>
+            </div>
+            
+            <div class="card" style="margin-top:1rem;">
+              <div class="card-tag">Características de su arte</div>
+              <ul style="color: var(--color-text); line-height: 1.6;">
+                <li>❤️ <strong>Emocional:</strong> Cada obra expresa sentimientos profundos</li>
+                <li>🎯 <strong>Dedicado:</strong> Todas sus pinturas tienen una dedicatoria especial</li>
+                <li>🌈 <strong>Colorido:</strong> Uso expresivo del color para transmitir emociones</li>
+                <li>🖌️ <strong>Técnicas variadas:</strong> Acrílico, acuarela y técnicas mixtas</li>
+                <li>📅 <strong>Fecha de creación:</strong> 2023-2024</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Columna derecha - Visor de la galería -->
+          <div class="right-column">
+            <div class="art-viewer">
+              <h2 class="gallery-title">Galería de Pinturas de Karyme</h2>
+              <p style="text-align: center; color: var(--color-muted); margin-bottom: 1rem;">
+                Obras del corazón
+              </p>
+              
+              <!-- Contenedor principal de la obra -->
+              <div class="art-image-container">
+                <!-- Decoraciones de corazones -->
+                <div class="heart-decoration heart-1">❤️</div>
+                <div class="heart-decoration heart-2">💖</div>
+                <div class="heart-decoration heart-3">💕</div>
+                
+                <!-- Imagen de la obra actual -->
+                <img id="currentArtwork" src="" alt="Pintura de Karyme" 
+                     class="artwork-image art-transition" />
+              </div>
+              
+              <!-- Panel de información de la obra -->
+              <div class="art-info-panel" id="artworkInfo">
+                <div class="loading-info">Cargando información de la obra...</div>
+              </div>
+              
+              <!-- Controles de zoom -->
+              <div class="zoom-controls">
+                <button class="zoom-button" onclick="zoomIn()">🔍 Acercar</button>
+                <button class="zoom-button" onclick="zoomOut()">🔎 Alejar</button>
+                <button class="zoom-button" onclick="resetZoom()">↺ Normal</button>
+              </div>
+              
+              <!-- Navegación principal -->
+              <div class="gallery-nav">
+                <button id="prevButton" class="nav-button" onclick="previousArtwork()">
+                  ← <span>Anterior</span>
+                </button>
+                
+                <div class="art-counter">
+                  Obra <span id="currentArtNum">0</span> de <span id="totalArts">0</span>
+                </div>
+                
+                <button id="nextButton" class="nav-button" onclick="nextArtwork()">
+                  <span>Siguiente</span> →
+                </button>
+              </div>
+              
+              <!-- Miniaturas de todas las obras -->
+              <div class="gallery-thumbnails" id="thumbnailContainer">
+                <!-- Las miniaturas se generan con JavaScript -->
+              </div>
+              
+              <!-- Modo presentación automática -->
+              <div style="text-align: center; margin-top: 1.5rem;">
+                <button id="slideshowButton" class="nav-button" onclick="toggleSlideshow()">
+                  ▶ <span>Recorrido automático</span>
+                </button>
+                <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: 0.5rem;">
+                  Disfruta de la galería completa (cambia de obra cada 15 segundos)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        © <span id="year"></span> CIMMCO · Pequeños Creadores – Karyme.
+      </div>
+      <div class="footer-links">
+        <a href="../index.html#arte">Volver a CIMMCO</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+
+    // ===== FUNCIONES PRINCIPALES =====
+    
+    // Función para verificar si una imagen existe
+    async function checkImageExists(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+    }
+    
+    // Función para filtrar obras que realmente existen
+    async function filterExistingArtworks(artworksList) {
+      const existingArtworks = [];
+      
+      for (const artwork of artworksList) {
+        // Verificar si la imagen existe
+        const imageExists = await checkImageExists(artwork.image);
+        
+        if (imageExists) {
+          existingArtworks.push(artwork);
+        } else {
+          console.warn(`Imagen no encontrada: ${artwork.image}`);
+        }
+      }
+      
+      return existingArtworks;
+    }
+    
+	// Función para cargar una obra (VERSIÓN MEJORADA)
+	async function loadArtwork(index) {
+	  if (index < 0 || index >= artworks.length) return;
+	  
+	  currentArtworkIndex = index;
+	  const artwork = artworks[index];
+	  const imageElement = document.getElementById('currentArtwork');
+	  const artNumDisplay = document.getElementById('currentArtNum');
+	  
+	  // Añadir animación
+	  imageElement.classList.add('art-transition');
+	  
+	  // Cargar imagen
+	  imageElement.src = artwork.image;
+	  imageElement.alt = `Pintura: ${artwork.title}`;
+	  imageElement.title = artwork.title;
+	  artNumDisplay.textContent = index + 1;
+	  
+	  // Actualizar información de la obra desde el JSON
+	  updateArtworkInfo({
+		title: artwork.title,
+		technique: artwork.tecnica || 'Técnica no especificada',
+		dedication: artwork.dedicatoria || 'Con cariño'
+	  });
+	  
+	  // Actualizar botones de navegación
+	  document.getElementById('prevButton').disabled = index === 0;
+	  document.getElementById('nextButton').disabled = index === artworks.length - 1;
+	  
+	  // Actualizar miniatura activa
+	  updateActiveThumbnail();
+	  
+	  // Remover animación
+	  setTimeout(() => {
+		imageElement.classList.remove('art-transition');
+	  }, 300);
+	}
+
+    // Función para analizar el texto de la obra (VERSIÓN PARA TU FORMATO)
+    function parseArtworkInfo(text, fallbackTitle) {
+        console.log('=== PARSING TXT ===');
+        console.log('Texto original:', text);
+        
+        // Dividir por líneas y limpiar
+        const lines = text.split('\n')
+            .map(line => line.trim())
+            .filter(line => line !== '');
+        
+        console.log('Líneas limpias:', lines);
+        
+        // Valores por defecto
+        let title = fallbackTitle || 'Sin título';
+        let technique = 'Técnica no especificada';
+        let dedication = 'Con cariño';
+        let message = 'Obra creada con amor y dedicación.';
+        
+        // Procesar según el número de líneas
+        if (lines.length >= 1) {
+            title = lines[0];
+        }
+        
+        if (lines.length >= 2) {
+            technique = lines[1];
+        }
+        
+        if (lines.length >= 3) {
+            // Tu formato específico: "Dedicado a: [texto largo]"
+            const dedicationLine = lines[2];
+            
+            // Manejar diferentes variantes
+            if (dedicationLine.toLowerCase().startsWith('dedicado a:')) {
+                dedication = dedicationLine.substring('dedicado a:'.length).trim();
+            } else if (dedicationLine.toLowerCase().startsWith('dedicado:')) {
+                dedication = dedicationLine.substring('dedicado:'.length).trim();
+            } else if (dedicationLine.toLowerCase().startsWith('para:')) {
+                dedication = dedicationLine.substring('para:'.length).trim();
+            } else if (dedicationLine.toLowerCase().includes('dedicado')) {
+                // Extraer todo después de "dedicado"
+                const match = dedicationLine.match(/dedicado\s*(?:a\s*:?\s*)?(.*)/i);
+                if (match && match[1]) {
+                    dedication = match[1].trim();
+                } else {
+                    dedication = dedicationLine;
+                }
+            } else {
+                dedication = dedicationLine;
+            }
+        }
+        
+        if (lines.length >= 4) {
+            // La cuarta línea es el mensaje
+            message = lines[3];
+        }
+        
+        // Si hay más líneas, agregarlas al mensaje
+        if (lines.length > 4) {
+            message = lines.slice(3).join(' ');
+        }
+        
+        console.log('Resultado:', { title, technique, dedication, message });
+        
+        return {
+            title: title,
+            technique: technique,
+            dedication: dedication,
+            message: message
+        };
+    }
+    
+    // ===== FUNCIÓN PARA ACTUALIZAR LA INTERFAZ =====
+	// Función para actualizar el panel de información
+	function updateArtworkInfo(info) {
+	  const infoPanel = document.getElementById('artworkInfo');
+	  
+	  // Crear el HTML con la información
+	  infoPanel.innerHTML = `
+		<div class="art-title">${escapeHtml(info.title)}</div>
+		<div class="art-details">
+		  <p><strong>Técnica:</strong> ${escapeHtml(info.technique)}</p>
+		  <p><strong>Dedicado a:</strong> <span class="dedication-indicator">${escapeHtml(info.dedication)}</span></p>
+		</div>
+	  `;
+	}
+    
+    // Función para escapar HTML (seguridad)
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Función para actualizar el panel de información
+    
+    function nextArtwork() {
+      if (currentArtworkIndex < artworks.length - 1) {
+        loadArtwork(currentArtworkIndex + 1);
+      }
+    }
+    
+    function previousArtwork() {
+      if (currentArtworkIndex > 0) {
+        loadArtwork(currentArtworkIndex - 1);
+      }
+    }
+    
+    function zoomIn() {
+      const imageElement = document.getElementById('currentArtwork');
+      if (!imageElement.src) return;
+      
+      zoomLevel = Math.min(zoomLevel + 0.5, 3);
+      imageElement.style.transform = `scale(${zoomLevel})`;
+      imageElement.classList.add('zoomed');
+    }
+    
+    function zoomOut() {
+      const imageElement = document.getElementById('currentArtwork');
+      if (!imageElement.src) return;
+      
+      zoomLevel = Math.max(zoomLevel - 0.5, 1);
+      imageElement.style.transform = `scale(${zoomLevel})`;
+      if (zoomLevel === 1) {
+        imageElement.classList.remove('zoomed');
+      }
+    }
+    
+    function resetZoom() {
+      const imageElement = document.getElementById('currentArtwork');
+      if (!imageElement.src) return;
+      
+      zoomLevel = 1;
+      imageElement.style.transform = 'scale(1)';
+      imageElement.classList.remove('zoomed');
+    }
+    
+    function toggleSlideshow() {
+      const button = document.getElementById('slideshowButton');
+      
+      if (slideshowInterval) {
+        // Detener presentación
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+        button.innerHTML = '▶ <span>Recorrido automático</span>';
+      } else {
+        // Iniciar presentación
+        slideshowInterval = setInterval(() => {
+          if (currentArtworkIndex < artworks.length - 1) {
+            nextArtwork();
+          } else {
+            // Volver al inicio si llegamos al final
+            loadArtwork(0);
+          }
+        }, 15000);
+        
+        button.innerHTML = '⏸ <span>Detener recorrido</span>';
+      }
+    }
+    
+    function generateThumbnails() {
+      const container = document.getElementById('thumbnailContainer');
+      container.innerHTML = '';
+      
+      if (artworks.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 2rem;">No hay obras disponibles en este momento.</p>';
+        return;
+      }
+      
+      artworks.forEach((artwork, index) => {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = artwork.image;
+        thumbnail.alt = `Miniatura: ${artwork.title || 'Obra'}`;
+        thumbnail.className = 'thumbnail';
+        thumbnail.dataset.index = index;
+        thumbnail.title = artwork.title || 'Ver obra';
+        
+        if (index === currentArtworkIndex) {
+          thumbnail.classList.add('active');
+        }
+        
+        thumbnail.addEventListener('click', () => {
+          loadArtwork(index);
+          resetZoom();
+        });
+        
+        container.appendChild(thumbnail);
+      });
+    }
+    
+    function updateActiveThumbnail() {
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+        if (parseInt(thumb.dataset.index) === currentArtworkIndex) {
+          thumb.classList.add('active');
+        }
+      });
+    }
+    
+    // ===== NAVEGACIÓN CON TECLADO =====
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'ArrowRight':
+        case ' ':
+          e.preventDefault();
+          nextArtwork();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          previousArtwork();
+          break;
+        case '+':
+          e.preventDefault();
+          zoomIn();
+          break;
+        case '-':
+          e.preventDefault();
+          zoomOut();
+          break;
+        case '0':
+          e.preventDefault();
+          resetZoom();
+          break;
+        case 's':
+        case 'S':
+          e.preventDefault();
+          toggleSlideshow();
+          break;
+      }
+    });
+    
+    // ===== INICIALIZACIÓN =====
+	// ===== CONFIGURACIÓN DE LA GALERÍA =====
+	let artworks = [
+		{
+		  "image": "karyme/cerca de ti.jpg",
+		  "textFile": "karyme/cerca de ti.txt",
+		  "title": "Cerca de ti",
+		  "tecnica": "Óleo sobre lienzo",
+		  "dedicatoria": "Regalo para mi abuelita, representan el amor de hermanos"
+		},
+		{
+		  "image": "karyme/lo mejor de mi vida.jpg", 
+		  "textFile": "karyme/lo mejor de mi vida.txt",
+		  "title": "Lo mejor de mi vida",
+		  "tecnica": "Óleo sobre lienzo",
+		  "dedicatoria": "Regalo para mi hermano, desde pequeño es apasionado por los deportes."
+		},
+		{
+		  "image": "karyme/recuerdos de la infancia.jpg",
+		  "textFile": "karyme/recuerdos de la infancia.txt", 
+		  "title": "Recuerdos de la infancia",
+		  "tecnica": "Acrílico sobre lienzo",
+		  "dedicatoria": "Regalo para mi papá, son sus personajes favoritos de la infancia y le gusta coleccionar figuras de acción."
+		}
+	];
+
+	let currentArtworkIndex = 0;
+	let zoomLevel = 1;
+	let slideshowInterval = null;
+
+	// ===== FUNCIONES PRINCIPALES =====
+
+	// Elimina COMPLETAMENTE la función loadArtworksConfig
+
+	// ===== INICIALIZACIÓN =====
+	async function initGallery() {
+	  // Configurar número total de obras
+	  document.getElementById('totalArts').textContent = artworks.length;
+	  
+	  // Generar miniaturas
+	  generateThumbnails();
+	  
+	  // Configurar botones
+	  document.getElementById('prevButton').disabled = true;
+	  document.getElementById('nextButton').disabled = artworks.length <= 1;
+	  
+	  // Cargar la primera obra si hay alguna
+	  if (artworks.length > 0) {
+		await loadArtwork(0);
+	  } else {
+		// Mostrar mensaje si no hay obras
+		document.getElementById('artworkInfo').innerHTML = `
+		  <div class="error-message">
+			<p>No se encontraron obras de Karyme.</p>
+		  </div>
+		`;
+	  }
+	  
+	  // Año actual en footer
+	  document.getElementById('year').textContent = new Date().getFullYear();
+	  
+	  console.log(`Galería de Karyme inicializada con ${artworks.length} obras.`);
+	}
+
+    // Función para el menú responsive
+    function toggleNav() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('open');
+    }
+    
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initGallery);
+    } else {
+      initGallery();
+    }
+  </script>
+</body>
+</html>

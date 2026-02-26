@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Hacer en Casa – CIMMCO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow:   #FFD93D;
+      --orange:   #FF6B35;
+      --pink:     #FF85A1;
+      --teal:     #06D6A0;
+      --purple:   #7B5EA7;
+      --blue:     #4CC9F0;
+      --bg:       #FFF8F0;
+      --dark:     #2D2D2D;
+      --card-bg:  #FFFFFF;
+      --radius:   18px;
+      --shadow:   0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow: hidden;
+    }
+
+    /* ── Confetti dots background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, var(--yellow) 2px, transparent 2px),
+        radial-gradient(circle, var(--pink) 2px, transparent 2px),
+        radial-gradient(circle, var(--teal) 2px, transparent 2px),
+        radial-gradient(circle, var(--blue) 2px, transparent 2px);
+      background-size: 60px 60px, 90px 90px, 75px 75px, 110px 110px;
+      background-position: 0 0, 30px 20px, 15px 45px, 55px 10px;
+      opacity: 0.18;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      height: 100vh;
+      overflow: hidden;
+      gap: 0;
+    }
+
+    /* ══════════════════════════════════
+       LEFT COLUMN
+    ══════════════════════════════════ */
+    .left-col {
+      background: linear-gradient(160deg, var(--purple) 0%, #5a3d8a 100%);
+      padding: 2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    /* decorative circles */
+    .left-col::before {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      bottom: -60px; right: -60px;
+    }
+    .left-col::after {
+      content: '';
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      top: 60px; left: -50px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-logo {
+      width: 52px; height: 52px;
+      background: var(--yellow);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .page-title-block {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title-block h1 {
+      font-family: 'Fredoka One', cursive;
+      color: var(--yellow);
+      font-size: 2.4rem;
+      line-height: 1.1;
+      text-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    }
+
+    .page-title-block .emoji-row {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-desc {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem;
+      border-left: 4px solid var(--yellow);
+    }
+
+    .fun-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+
+    .badge:hover {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .badge-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 0.8rem;
+      text-align: center;
+      color: white;
+    }
+
+    .stat-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    .back-link {
+      position: relative;
+      z-index: 1;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+      margin-top: auto;
+    }
+
+    .back-link:hover { color: white; }
+
+    /* ══════════════════════════════════
+       RIGHT COLUMN
+    ══════════════════════════════════ */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      background: #1a1a2e;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ── Video Player ── */
+    .video-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #0f0f1a;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .video-header {
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .now-playing-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+    }
+
+    .now-playing-title {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1.15rem;
+      max-width: 60%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .media-type-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .media-type-badge.video { background: var(--orange); color: white; }
+    .media-type-badge.photo { background: var(--pink); color: white; }
+
+    .video-wrapper {
+      position: relative;
+      flex: 1;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    #mainVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    #mainImage {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(0,0,0,0.3);
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    .play-overlay.visible { opacity: 1; }
+
+    .play-btn-big {
+      width: 80px; height: 80px;
+      background: var(--yellow);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 40px rgba(255,211,61,0.6);
+      transition: transform 0.2s;
+    }
+    .play-btn-big:hover { transform: scale(1.1); }
+
+    /* ── Carousel ── */
+    .carousel-section {
+      background: #12122b;
+      border-top: 3px solid rgba(255,255,255,0.08);
+      padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .carousel-title {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .carousel-count {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      font-weight: 700;
+    }
+
+    .carousel-scroll-wrapper {
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--purple) transparent;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      height: 4px;
+    }
+    .carousel-track::-webkit-scrollbar-track { background: transparent; }
+    .carousel-track::-webkit-scrollbar-thumb {
+      background: var(--purple);
+      border-radius: 4px;
+    }
+
+    .carousel-item {
+      position: relative;
+      flex-shrink: 0;
+      width: 140px;
+      height: 95px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .carousel-item:hover { transform: scale(1.04); }
+
+    .carousel-item.active {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 2px rgba(255,211,61,0.4);
+    }
+
+    .carousel-item img,
+    .carousel-item video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* video placeholder thumbnail */
+    .carousel-item .vid-thumb {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #1e1e3f, #2d2b55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .carousel-item .vid-thumb .play-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .carousel-item .type-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+    }
+    .type-dot.video { background: var(--orange); }
+    .type-dot.photo { background: var(--pink); }
+
+    /* Tooltip on hover */
+    .carousel-item .tooltip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.4rem 0.5rem 0.5rem;
+      transform: translateY(100%);
+      transition: transform 0.25s ease;
+      line-height: 1.3;
+    }
+
+    .carousel-item:hover .tooltip {
+      transform: translateY(0);
+    }
+
+    /* Scroll arrows */
+    .scroll-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 34px; height: 34px;
+      background: var(--purple);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      transition: background 0.2s;
+    }
+    .scroll-arrow:hover { background: var(--orange); }
+    .scroll-arrow.left { left: -14px; }
+    .scroll-arrow.right { right: -14px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .empty-state .big-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.95rem; line-height: 1.6; }
+    .empty-state code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    /* ── Image viewer overlay ── */
+    .img-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-overlay.open { display: flex; }
+    .img-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+    .img-overlay-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: var(--orange);
+      color: white;
+      border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .left-col {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 1.2rem;
+        gap: 1rem;
+      }
+      .page-title-block { flex-basis: 100%; }
+      .page-desc { flex-basis: 100%; }
+      .fun-badges { flex-direction: row; flex-basis: 100%; }
+    }
+
+    /* Wiggle animation for title */
+    @keyframes wiggle {
+      0%,100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+    .page-title-block h1 {
+      display: inline-block;
+      animation: wiggle 3s ease-in-out infinite;
+    }
+
+    /* Bounce for play icon */
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .brand-logo { animation: bounce 2s ease-in-out infinite; }
+
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ════════════════════════════════
+       LEFT COLUMN
+  ════════════════════════════════ -->
+  <aside class="left-col">
+
+    <div class="brand">
+      <div class="brand-logo">🎪</div>
+      <div>
+        <div class="brand-name">CIMMCO</div>
+        <div class="brand-sub">Pequeños Creadores</div>
+      </div>
+    </div>
+
+    <div class="page-title-block">
+      <div class="emoji-row">🏠 🎨 🌟</div>
+      <h1>Para Hacer en Casa</h1>
+    </div>
+
+    <p class="page-desc">
+      Aquí te presentamos una serie de videos e ideas geniales, simples y sencillas, 
+      con las cuales podrás divertirte mucho en casa y aprender. 
+      ¡Escoge el que más te guste y a crear!
+    </p>
+
+    <div class="fun-badges">
+      <div class="badge">
+        <span class="badge-icon">🎬</span>
+        <span>Videos paso a paso</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🖼️</span>
+        <span>Fotos de inspiración</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🎉</span>
+        <span>Proyectos divertidos</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🧒</span>
+        <span>Para toda la familia</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="videoCount">—</div>
+        <div class="stat-label">Videos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="photoCount">—</div>
+        <div class="stat-label">Fotos</div>
+      </div>
+    </div>
+
+    <a href="../index.html" class="back-link">← Volver a CIMMCO</a>
+
+  </aside>
+
+  <!-- ════════════════════════════════
+       RIGHT COLUMN
+  ════════════════════════════════ -->
+  <div class="right-col">
+
+    <!-- Video / Image Player -->
+    <div class="video-section">
+
+      <div class="video-header">
+        <div>
+          <div class="now-playing-label">▶ Reproduciendo ahora</div>
+          <div class="now-playing-title" id="nowPlayingTitle">Selecciona un contenido…</div>
+        </div>
+        <span class="media-type-badge video" id="mediaTypeBadge" style="display:none">Video</span>
+      </div>
+
+      <div class="video-wrapper" id="videoWrapper">
+        <video id="mainVideo" controls controlsList="nodownload"
+               preload="metadata"
+               style="display:none">
+          Tu navegador no soporta video.
+        </video>
+        <img id="mainImage" alt="Foto seleccionada" />
+
+        <div class="play-overlay visible" id="playOverlay" onclick="overlayClicked()">
+          <div class="play-btn-big">▶</div>
+        </div>
+
+        <!-- Empty / welcome state -->
+        <div class="empty-state" id="emptyState">
+          <div class="big-emoji">🎬</div>
+          <p>
+            <strong style="color:white;">¡Bienvenido!</strong><br><br>
+            Pon todos tus videos y fotos en la misma carpeta<br>
+            que este archivo <code>para_hacer_en_casa.html</code><br>
+            y aparecerán automáticamente aquí abajo.<br><br>
+            ¡Luego haz clic en uno para comenzar! 🚀
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-section">
+
+      <div class="carousel-header">
+        <div class="carousel-title">
+          🎠 Todos los contenidos
+        </div>
+        <div class="carousel-count" id="carouselCount">Cargando…</div>
+      </div>
+
+      <div class="carousel-scroll-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCarousel(-1)">‹</button>
+        <div class="carousel-track" id="carouselTrack">
+          <!-- items added by JS -->
+        </div>
+        <button class="scroll-arrow right" onclick="scrollCarousel(1)">›</button>
+      </div>
+
+    </div>
+
+  </div><!-- /right-col -->
+
+</div><!-- /page-wrapper -->
+
+<!-- Image fullscreen overlay -->
+<div class="img-overlay" id="imgOverlay">
+  <button class="img-overlay-close" onclick="closeImgOverlay()">✕</button>
+  <img id="overlayImg" src="" alt="Foto grande" />
+</div>
+
+<script>
+  // ═══════════════════════════════════════
+  // EXTENSIONES RECONOCIDAS
+  // ═══════════════════════════════════════
+  const VIDEO_EXTS = ['mp4','webm','ogg','mov','m4v','avi','ts'];
+  const IMAGE_EXTS = ['jpg','jpeg','png','gif','webp','bmp','svg'];
+
+  let mediaItems = [];
+  let currentIndex = -1;
+
+  // ═══════════════════════════════════════
+  // LISTA DE CONTENIDOS
+  // Para añadir un video: copia el bloque { archivo, titulo }
+  // y rellena con el nombre exacto del fichero y el título que quieras.
+  // ═══════════════════════════════════════
+  const LISTA_MEDIOS = [
+    { archivo: "El aeroplano que siempre regresa a ti, como tu mejor amigo.mp4",
+      titulo:  "✈️ El aeroplano que siempre regresa" },
+
+    { archivo: "El molino infinito.mp4",
+      titulo:  "🌀 El molino infinito" },
+
+    { archivo: "maquina_movimiento_eterno.mp4",
+      titulo:  "⚙️ Máquina de movimiento eterno" },
+
+    { archivo: "lanzador_carton.mp4",
+      titulo:  "📦 Lanzador de cartón" },
+
+    { archivo: "Ciencia casera.mp4",
+      titulo:  "🔬 Ciencia casera" },
+
+    { archivo: "Aprende a hacer dibujos fascinantes con tecnicas increibles.mp4",
+      titulo:  "✏️ Dibujos fascinantes" },
+
+    { archivo: "Manos que pintan.mp4",
+      titulo:  "🖐️ Manos que pintan" },
+
+    { archivo: "Cómo multiplicar números cercanos a 1000 en menos de 3 segundos.mp4",
+      titulo:  "🧮 Multiplica cerca de 1000 en 3 segundos" },
+
+    { archivo: "El mejor boomerang. Haz que tus amigos te envidien en el parque.mp4",
+      titulo:  "🪃 El mejor boomerang" },
+
+    { archivo: "Planeador ultrasonico.mp4",
+      titulo:  "🛩️ Planeador ultrasónico" },
+
+    { archivo: "Un aeroplano maravilloso hecho con tus dedos y un palillo para las orejas.mp4",
+      titulo:  "🤏 Aeroplano con dedos y palillo" },
+
+    { archivo: "Construye el mejor aeroplano jamas visto.mp4",
+      titulo:  "🏆 El mejor aeroplano jamás visto" },
+
+    { archivo: "Mi globo aeroplano, para volar en casa.mp4",
+      titulo:  "🎈 Globo aeroplano casero" },
+
+    { archivo: "Artista de bajo costo.mp4",
+      titulo:  "🖌️ Artista de bajo costo" },
+
+    { archivo: "figuritas con plastico.mp4",
+      titulo:  "🦋 Figuritas con plástico" },
+
+    { archivo: "Flores para mamita, hermanita, noviecita.mp4",
+      titulo:  "🌸 Flores para mamita" },
+
+    { archivo: "Dibuja tu rostro.mp4",
+      titulo:  "🧑 Dibuja tu propio rostro" },
+
+    { archivo: "Dibuja a tu mejor amiga.mp4",
+      titulo:  "👯 Dibuja a tu mejor amiga" },
+
+    { archivo: "Un diamante, una perla, que se yo.mp4",
+      titulo:  "💎 Diamantes y perlas" },
+
+    { archivo: "Crea un tunel dentro de casa.mp4",
+      titulo:  "🚇 Crea un túnel en casa" },
+
+    { archivo: "Dibujos de acuarelas como si limpiaras los cristales .mp4",
+      titulo:  "🪟 Acuarela efecto cristal" },
+
+    { archivo: "El balon imposible.ts",
+      titulo:  "⚽ El balón imposible" },
+
+    { archivo: "El globo pintor.mp4",
+      titulo:  "🎈 El globo pintor" },
+
+    { archivo: "Ayuda a Spiderman. Construye una telaraña que dejara palido a Spiderman.mp4",
+      titulo:  "🕷️ Ayuda a Spiderman" },
+
+    { archivo: "El tunel.mp4",
+      titulo:  "🚇 El túnel mágico" },
+
+    { archivo: "Que no te agarre mama con su collar ni su fregona.ts",
+      titulo:  "😂 ¡Que no te vea mamá!" },
+
+    { archivo: "Amor de altura.mp4",
+      titulo:  "💕 Amor de altura" },
+
+    { archivo: "La proxima vez que mama te mande a limpiar los cristales regalale una obra de arte.mp4",
+      titulo:  "🎁 Obra de arte en los cristales" },
+
+    { archivo: "No me hagas cosquillas.mp4",
+      titulo:  "🤣 ¡No me hagas cosquillas!" },
+
+    { archivo: "Preciosa fuente de movimiento continuo. Para hacer con papa o mama.mp4",
+      titulo:  "⛲ Fuente de movimiento continuo" },
+
+    { archivo: "El genio de las tapitas. Nadie me gana.mp4",
+      titulo:  "🧢 El genio de las tapitas" },
+
+    { archivo: "El planeador de la nieve.mp4",
+      titulo:  "❄️ El planeador de la nieve" }
+  ];
+
+  // ── Carga la lista en mediaItems ──
+  function cargarLista() {
+    LISTA_MEDIOS.forEach(({ archivo, titulo }) => {
+      const ext = archivo.split('.').pop().toLowerCase().trim();
+      if (VIDEO_EXTS.includes(ext)) {
+        mediaItems.push({ name: titulo, src: archivo, type: 'video' });
+      } else if (IMAGE_EXTS.includes(ext)) {
+        mediaItems.push({ name: titulo, src: archivo, type: 'photo' });
+      }
+    });
+  }
+
+  // ── Drag & Drop — permite añadir más archivos arrastrando ──
+  function enableDragDrop() {
+    const wrapper = document.getElementById('videoWrapper');
+    wrapper.addEventListener('dragover', e => e.preventDefault());
+    wrapper.addEventListener('drop', e => {
+      e.preventDefault();
+      handleFiles([...e.dataTransfer.files]);
+    });
+  }
+
+  function handleFiles(files) {
+    const newItems = [];
+    files.sort((a, b) => a.name.localeCompare(b.name, 'es', { numeric: true }));
+    files.forEach(f => {
+      const ext = f.name.split('.').pop().toLowerCase();
+      const src = URL.createObjectURL(f);
+      if (VIDEO_EXTS.includes(ext)) {
+        newItems.push({ name: cleanName(f.name), src, type: 'video', file: f });
+      } else if (IMAGE_EXTS.includes(ext)) {
+        newItems.push({ name: cleanName(f.name), src, type: 'photo', file: f });
+      }
+    });
+    if (newItems.length > 0) {
+      mediaItems = [...mediaItems, ...newItems];
+      buildCarousel();
+      if (currentIndex === -1) selectItem(0);
+    }
+  }
+
+  function cleanName(filename) {
+    // Remove extension and replace underscores/hyphens
+    return filename.replace(/\.[^.]+$/, '')
+                   .replace(/[-_]/g, ' ')
+                   .replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ═══════════════════════════════════════
+  // UI
+  // ═══════════════════════════════════════
+  function buildCarousel() {
+    const track = document.getElementById('carouselTrack');
+    track.innerHTML = '';
+
+    const videos = mediaItems.filter(m => m.type === 'video');
+    const photos = mediaItems.filter(m => m.type === 'photo');
+
+    document.getElementById('videoCount').textContent = videos.length;
+    document.getElementById('photoCount').textContent = photos.length;
+    document.getElementById('carouselCount').textContent =
+      `${mediaItems.length} ${mediaItems.length === 1 ? 'elemento' : 'elementos'}`;
+
+    mediaItems.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = 'carousel-item' + (i === currentIndex ? ' active' : '');
+      el.dataset.index = i;
+
+      if (item.type === 'photo') {
+        el.innerHTML = `
+          <img src="${item.src}" alt="${item.name}" loading="lazy" />
+          <span class="type-dot photo">📷</span>
+          <div class="tooltip">${item.name}</div>
+        `;
+      } else {
+        // Try to make a video thumbnail
+        el.innerHTML = `
+          <div class="vid-thumb">
+            <div class="play-icon">▶</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:0.65rem;font-weight:700;text-align:center;padding:0 4px">${item.name}</div>
+          </div>
+          <span class="type-dot video">🎬</span>
+          <div class="tooltip">${item.name}</div>
+        `;
+        // Try to grab a frame using a hidden video
+        loadVideoThumbnail(el, item.src);
+      }
+
+      el.addEventListener('click', () => selectItem(i));
+      track.appendChild(el);
+    });
+
+    if (mediaItems.length === 0) {
+      document.getElementById('emptyState').style.display = 'flex';
+      document.getElementById('emptyState').style.flexDirection = 'column';
+      document.getElementById('emptyState').style.alignItems = 'center';
+    } else {
+      document.getElementById('emptyState').style.display = 'none';
+    }
+  }
+
+  function loadVideoThumbnail(container, src) {
+    const v = document.createElement('video');
+    v.src = src;
+    v.currentTime = 1;
+    v.muted = true;
+    v.playsInline = true;
+    v.onloadeddata = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 280; canvas.height = 190;
+      const ctx = canvas.getContext('2d');
+      try {
+        ctx.drawImage(v, 0, 0, 280, 190);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        const thumb = document.createElement('div');
+        thumb.className = 'vid-thumb';
+        thumb.style.cssText = `
+          background-image: url(${dataUrl});
+          background-size: cover;
+          background-position: center;
+          width:100%; height:100%;
+        `;
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;';
+        overlay.innerHTML = '<div style="width:32px;height:32px;background:rgba(255,107,53,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;">▶</div>';
+        container.querySelector('.vid-thumb').replaceWith(thumb);
+        thumb.appendChild(overlay);
+      } catch(e) {}
+    };
+  }
+
+  function selectItem(index) {
+    if (index < 0 || index >= mediaItems.length) return;
+    currentIndex = index;
+    const item = mediaItems[index];
+
+    const video = document.getElementById('mainVideo');
+    const image = document.getElementById('mainImage');
+    const overlay = document.getElementById('playOverlay');
+    const badge = document.getElementById('mediaTypeBadge');
+
+    document.getElementById('nowPlayingTitle').textContent = item.name;
+    badge.style.display = '';
+
+    if (item.type === 'video') {
+      video.style.display = 'block';
+      image.style.display = 'none';
+      badge.textContent = 'Video 🎬';
+      badge.className = 'media-type-badge video';
+      overlay.classList.add('visible');
+
+      // Remove old error message if any
+      const oldErr = document.getElementById('videoError');
+      if (oldErr) oldErr.remove();
+
+      video.src = item.src;
+      video.load();
+
+      overlay.onclick = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            overlay.classList.remove('visible');
+          }).catch(() => {
+            showVideoError(item.src);
+          });
+        }
+      };
+      video.onpause = () => overlay.classList.add('visible');
+      video.onplay  = () => overlay.classList.remove('visible');
+      video.onerror = () => showVideoError(item.src);
+      video.onended = () => {
+        overlay.classList.add('visible');
+        if (index + 1 < mediaItems.length) {
+          setTimeout(() => selectItem(index + 1), 800);
+        }
+      };
+
+    } else {
+      video.style.display = 'none';
+      video.pause();
+      image.style.display = 'block';
+      image.src = item.src;
+      badge.textContent = 'Foto 📷';
+      badge.className = 'media-type-badge photo';
+      overlay.classList.remove('visible');
+      overlay.onclick = () => {
+        document.getElementById('overlayImg').src = item.src;
+        document.getElementById('imgOverlay').classList.add('open');
+      };
+    }
+
+    // Update carousel active state
+    document.querySelectorAll('.carousel-item').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    // Scroll carousel item into view
+    const activeEl = document.querySelector('.carousel-item.active');
+    if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function showVideoError(src) {
+    const wrapper = document.getElementById('videoWrapper');
+    const existing = document.getElementById('videoError');
+    if (existing) return;
+    const ext = src.split('.').pop().toUpperCase();
+    const msg = document.createElement('div');
+    msg.id = 'videoError';
+    msg.style.cssText = `
+      position:absolute; inset:0; background:rgba(0,0,0,0.85);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      color:white; text-align:center; padding:2rem; z-index:10;
+    `;
+    msg.innerHTML = `
+      <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FFD93D;margin-bottom:0.8rem;">
+        No se puede reproducir este video
+      </div>
+      <div style="font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.7;max-width:380px;">
+        El formato <strong style="color:#FF6B35;">.${ext}</strong> no es compatible con el navegador.<br>
+        ${ext === 'TS' ? 'Convierte el archivo <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">.ts</code> a <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">.mp4</code> y reemplázalo.' : 'Asegúrate de que el archivo esté en la misma carpeta que este HTML.'}
+      </div>
+      <button onclick="document.getElementById('videoError').remove()" style="
+        margin-top:1.5rem; background:var(--orange); color:white; border:none;
+        padding:0.6rem 1.4rem; border-radius:20px; font-weight:700; cursor:pointer; font-size:0.9rem;
+      ">Cerrar</button>
+    `;
+    wrapper.appendChild(msg);
+  }
+
+  function overlayClicked() { /* handled per item */ }
+
+  function scrollCarousel(dir) {
+    const track = document.getElementById('carouselTrack');
+    track.scrollBy({ left: dir * 400, behavior: 'smooth' });
+  }
+
+  function closeImgOverlay() {
+    document.getElementById('imgOverlay').classList.remove('open');
+  }
+
+  // Close overlay on background click
+  document.getElementById('imgOverlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeImgOverlay();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('imgOverlay').classList.contains('open')) {
+      if (e.key === 'Escape') closeImgOverlay();
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') selectItem(currentIndex + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') selectItem(currentIndex - 1);
+    if (e.key === 'Escape') {
+      const v = document.getElementById('mainVideo');
+      if (!v.paused) v.pause();
+    }
+  });
+
+  // ═══════════════════════════════════════
+  // INIT
+  // ═══════════════════════════════════════
+  function init() {
+    enableDragDrop();
+    cargarLista();
+    buildCarousel();
+    if (mediaItems.length > 0) {
+      selectItem(0);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

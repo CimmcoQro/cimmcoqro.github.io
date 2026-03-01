@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Magia de las Matemáticas – CIMMCO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow:   #FFD93D;
+      --orange:   #FF6B35;
+      --pink:     #FF85A1;
+      --teal:     #06D6A0;
+      --purple:   #4361EE;
+      --blue:     #4CC9F0;
+      --bg:       #F0F4FF;
+      --dark:     #2D2D2D;
+      --card-bg:  #FFFFFF;
+      --radius:   18px;
+      --shadow:   0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow: hidden;
+    }
+
+    /* ── Math symbols background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, var(--yellow) 2px, transparent 2px),
+        radial-gradient(circle, var(--pink) 2px, transparent 2px),
+        radial-gradient(circle, var(--teal) 2px, transparent 2px),
+        radial-gradient(circle, var(--blue) 2px, transparent 2px);
+      background-size: 60px 60px, 90px 90px, 75px 75px, 110px 110px;
+      background-position: 0 0, 30px 20px, 15px 45px, 55px 10px;
+      opacity: 0.18;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      height: 100vh;
+      overflow: hidden;
+      gap: 0;
+    }
+
+    /* ══════════════════════════════════
+       LEFT COLUMN
+    ══════════════════════════════════ */
+    .left-col {
+      background: linear-gradient(160deg, #1a237e 0%, #283593 60%, #1565c0 100%);
+      padding: 2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    /* decorative circles */
+    .left-col::before {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      bottom: -60px; right: -60px;
+    }
+    .left-col::after {
+      content: '';
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      top: 60px; left: -50px;
+    }
+
+    /* Floating math symbols decoration */
+    .math-symbols {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .math-sym {
+      position: absolute;
+      font-family: 'Fredoka One', cursive;
+      color: rgba(255,255,255,0.07);
+      font-size: 3.5rem;
+      user-select: none;
+    }
+    .math-sym:nth-child(1) { top: 8%;  left: 5%;  font-size: 4rem; }
+    .math-sym:nth-child(2) { top: 22%; right: 8%; font-size: 3rem; }
+    .math-sym:nth-child(3) { top: 45%; left: 10%; font-size: 5rem; }
+    .math-sym:nth-child(4) { top: 62%; right: 5%; font-size: 3.5rem; }
+    .math-sym:nth-child(5) { top: 78%; left: 15%; font-size: 3rem; }
+    .math-sym:nth-child(6) { top: 88%; right: 12%; font-size: 4rem; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-logo {
+      width: 52px; height: 52px;
+      background: var(--yellow);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .page-title-block {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title-block h1 {
+      font-family: 'Fredoka One', cursive;
+      color: var(--yellow);
+      font-size: 2.1rem;
+      line-height: 1.1;
+      text-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    }
+
+    .page-title-block .emoji-row {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-desc {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem;
+      border-left: 4px solid var(--yellow);
+    }
+
+    .fun-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+
+    .badge:hover {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .badge-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 0.8rem;
+      text-align: center;
+      color: white;
+    }
+
+    .stat-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    .back-link-header {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .back-link-header:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    /* ══════════════════════════════════
+       RIGHT COLUMN
+    ══════════════════════════════════ */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      background: #0d0d1f;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ── Carousel sits at the BOTTOM with fixed height ── */
+    .carousel-section {
+      background: #0d0d22;
+      border-top: 3px solid rgba(255,255,255,0.08);
+      padding: 0.9rem 1.2rem 1rem;
+      flex-shrink: 0;
+      /* Fixed height so video-section gets all remaining space */
+      height: 155px;
+    }
+
+    /* ── Video Player ── */
+    .video-section {
+      /* Takes all remaining vertical space after the carousel */
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #0a0a18;
+      min-height: 0;
+    }
+
+    .video-header {
+      padding: 0.75rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      /* Never shrink — always fully visible */
+      flex-shrink: 0;
+    }
+
+    .now-playing-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+    }
+
+    .now-playing-title {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1.05rem;
+      /* Allow the title to wrap instead of truncating */
+      flex: 1;
+      white-space: normal;
+      line-height: 1.3;
+      padding-right: 1rem;
+    }
+
+    .media-type-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .media-type-badge.video { background: var(--orange); color: white; }
+    .media-type-badge.photo { background: var(--pink); color: white; }
+
+    /* The video wrapper fills the remaining flex space.
+       overflow:hidden clips the sides but the video element itself
+       is sized with object-fit:contain so controls stay inside. */
+    .video-wrapper {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #mainVideo {
+      /* Fill width, let height be determined by aspect ratio.
+         object-fit:contain ensures the full frame + controls fit. */
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    #mainImage {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+
+    .play-overlay {
+      position: absolute;
+      /* Leave ~48px at the bottom free for native controls */
+      top: 0; left: 0; right: 0; bottom: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(0,0,0,0.3);
+      transition: opacity 0.3s;
+      opacity: 0;
+      /* Don't intercept pointer events when hidden */
+      pointer-events: none;
+    }
+    .play-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .play-btn-big {
+      width: 80px; height: 80px;
+      background: var(--yellow);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 40px rgba(255,211,61,0.6);
+      transition: transform 0.2s;
+    }
+    .play-btn-big:hover { transform: scale(1.1); }
+
+    /* ── Carousel ── */
+
+    .carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .carousel-title {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .carousel-count {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      font-weight: 700;
+    }
+
+    .carousel-scroll-wrapper {
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: #4361EE transparent;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      height: 4px;
+    }
+    .carousel-track::-webkit-scrollbar-track { background: transparent; }
+    .carousel-track::-webkit-scrollbar-thumb {
+      background: #4361EE;
+      border-radius: 4px;
+    }
+
+    .carousel-item {
+      position: relative;
+      flex-shrink: 0;
+      width: 140px;
+      height: 95px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .carousel-item:hover { transform: scale(1.04); }
+
+    .carousel-item.active {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 2px rgba(255,211,61,0.4);
+    }
+
+    .carousel-item img,
+    .carousel-item video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* video placeholder thumbnail */
+    .carousel-item .vid-thumb {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #1a1a4f, #0d2b85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .carousel-item .vid-thumb .play-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .carousel-item .type-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+    }
+    .type-dot.video { background: var(--orange); }
+    .type-dot.photo { background: var(--pink); }
+
+    /* Tooltip on hover */
+    .carousel-item .tooltip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.4rem 0.5rem 0.5rem;
+      transform: translateY(100%);
+      transition: transform 0.25s ease;
+      line-height: 1.3;
+    }
+
+    .carousel-item:hover .tooltip {
+      transform: translateY(0);
+    }
+
+    /* Scroll arrows */
+    .scroll-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 34px; height: 34px;
+      background: #4361EE;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      transition: background 0.2s;
+    }
+    .scroll-arrow:hover { background: var(--orange); }
+    .scroll-arrow.left { left: -14px; }
+    .scroll-arrow.right { right: -14px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .empty-state .big-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.95rem; line-height: 1.6; }
+    .empty-state code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    /* ── Image viewer overlay ── */
+    .img-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-overlay.open { display: flex; }
+    .img-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+    .img-overlay-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: var(--orange);
+      color: white;
+      border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .left-col {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        padding: 1rem;
+        overflow-y: visible;
+        height: auto;
+      }
+      .fun-badges { flex-direction: row; flex-basis: 100%; }
+    }
+
+    /* Wiggle animation for title */
+    @keyframes wiggle {
+      0%,100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+    .page-title-block h1 {
+      display: inline-block;
+      animation: wiggle 3s ease-in-out infinite;
+    }
+
+    /* Bounce for logo */
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .brand-logo { animation: bounce 2s ease-in-out infinite; }
+
+    /* Pulse for math symbols */
+    @keyframes floatSym {
+      0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.07; }
+      50% { transform: translateY(-12px) rotate(5deg); opacity: 0.12; }
+    }
+    .math-sym { animation: floatSym 4s ease-in-out infinite; }
+    .math-sym:nth-child(2) { animation-delay: 0.8s; }
+    .math-sym:nth-child(3) { animation-delay: 1.5s; }
+    .math-sym:nth-child(4) { animation-delay: 0.4s; }
+    .math-sym:nth-child(5) { animation-delay: 2s; }
+    .math-sym:nth-child(6) { animation-delay: 1.2s; }
+
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ════════════════════════════════
+       LEFT COLUMN
+  ════════════════════════════════ -->
+  <aside class="left-col">
+
+    <!-- Floating math symbols decoration -->
+    <div class="math-symbols">
+      <span class="math-sym">+</span>
+      <span class="math-sym">×</span>
+      <span class="math-sym">÷</span>
+      <span class="math-sym">−</span>
+      <span class="math-sym">=</span>
+      <span class="math-sym">∑</span>
+    </div>
+
+    <div class="brand">
+      <div class="brand-logo">🔢</div>
+      <div>
+        <div class="brand-name">CIMMCO</div>
+        <div class="brand-sub">Aprende con Nosotros</div>
+      </div>
+    </div>
+
+    <div class="page-title-block">
+      <div class="emoji-row">➕ ✖️ 🧮</div>
+      <h1>La Magia de las Matemáticas</h1>
+    </div>
+
+    <p class="page-desc">
+      Descubre trucos increíbles y métodos asombrosos para dominar 
+      las matemáticas. ¡Suma, resta, multiplica y divide de formas 
+      que nunca imaginaste! 🚀
+    </p>
+
+    <div class="fun-badges">
+      <div class="badge">
+        <span class="badge-icon">⚡</span>
+        <span>Cálculo mental rápido</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🧩</span>
+        <span>Métodos alternativos</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🏆</span>
+        <span>Trucos de campeones</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🎓</span>
+        <span>Para todos los niveles</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="videoCount">—</div>
+        <div class="stat-label">Videos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="photoCount">—</div>
+        <div class="stat-label">Extras</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ════════════════════════════════
+       RIGHT COLUMN
+  ════════════════════════════════ -->
+  <div class="right-col">
+
+    <!-- Video / Image Player -->
+    <div class="video-section">
+
+      <div class="video-header">
+        <div>
+          <div class="now-playing-label">▶ Reproduciendo ahora</div>
+          <div class="now-playing-title" id="nowPlayingTitle">Selecciona un video…</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
+          <a href="../../index.html" class="back-link-header">← Volver a CIMMCO</a>
+          <span class="media-type-badge video" id="mediaTypeBadge" style="display:none">Video</span>
+        </div>
+      </div>
+
+      <div class="video-wrapper" id="videoWrapper">
+        <video id="mainVideo" controls controlsList="nodownload"
+               preload="metadata"
+               style="display:none">
+          Tu navegador no soporta video.
+        </video>
+        <img id="mainImage" alt="Imagen seleccionada" />
+
+        <div class="play-overlay visible" id="playOverlay" onclick="overlayClicked()">
+          <div class="play-btn-big">▶</div>
+        </div>
+
+        <!-- Empty / welcome state -->
+        <div class="empty-state" id="emptyState">
+          <div class="big-emoji">🧮</div>
+          <p>
+            <strong style="color:white;">¡Bienvenido, Pequeño Matemático!</strong><br><br>
+            Pon todos los videos en la misma carpeta<br>
+            que este archivo <code>matematics.html</code><br>
+            y aparecerán automáticamente aquí abajo.<br><br>
+            ¡Haz clic en uno para comenzar a aprender! 🚀
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-section">
+
+      <div class="carousel-header">
+        <div class="carousel-title">
+          🧮 Todos los videos
+        </div>
+        <div class="carousel-count" id="carouselCount">Cargando…</div>
+      </div>
+
+      <div class="carousel-scroll-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCarousel(-1)">‹</button>
+        <div class="carousel-track" id="carouselTrack">
+          <!-- items added by JS -->
+        </div>
+        <button class="scroll-arrow right" onclick="scrollCarousel(1)">›</button>
+      </div>
+
+    </div>
+
+  </div><!-- /right-col -->
+
+</div><!-- /page-wrapper -->
+
+<!-- Image fullscreen overlay -->
+<div class="img-overlay" id="imgOverlay">
+  <button class="img-overlay-close" onclick="closeImgOverlay()">✕</button>
+  <img id="overlayImg" src="" alt="Imagen grande" />
+</div>
+
+<script>
+  // ═══════════════════════════════════════
+  // EXTENSIONES RECONOCIDAS
+  // ═══════════════════════════════════════
+  const VIDEO_EXTS = ['mp4','webm','ogg','mov','m4v','avi','ts'];
+  const IMAGE_EXTS = ['jpg','jpeg','png','gif','webp','bmp','svg'];
+
+  let mediaItems = [];
+  let currentIndex = -1;
+
+  // ═══════════════════════════════════════
+  // LISTA DE VIDEOS DE MATEMÁTICAS
+  // Para añadir un video: copia el bloque { archivo, titulo }
+  // y rellena con el nombre exacto del fichero y el título que quieras.
+  // Los videos deben estar en la carpeta galeria/matematics/
+  // ═══════════════════════════════════════
+  const LISTA_MEDIOS = [
+    { archivo: "Sumando numeros cerca de 20, 30, 40, 50,....mp4",
+      titulo:  "➕ Sumando números cerca de 20, 30, 40, 50…" },
+
+    { archivo: "Como MULTIPLICAR en 3 SEGUNDOS (de forma MENTAL) _ TRUCOS.mp4",
+      titulo:  "⚡ Cómo MULTIPLICAR en 3 SEGUNDOS (¡de forma mental!)" },
+
+    { archivo: "Matematicas alternativas. Para reir un poquito.mp4",
+      titulo:  "🧩 Matemáticas alternativas. Para reir un poquito" },
+
+    { archivo: "DIVIDIR entre DOS CIFRAS, con el metodo de las cajas, paso a paso.mp4",
+      titulo:  "📦 Dividir entre dos cifras: el método de las cajas" }
+  ];
+
+  // ── Carga la lista en mediaItems ──
+  function cargarLista() {
+    LISTA_MEDIOS.forEach(({ archivo, titulo }) => {
+      const ext = archivo.split('.').pop().toLowerCase().trim();
+      if (VIDEO_EXTS.includes(ext)) {
+        mediaItems.push({ name: titulo, src: archivo, type: 'video' });
+      } else if (IMAGE_EXTS.includes(ext)) {
+        mediaItems.push({ name: titulo, src: archivo, type: 'photo' });
+      }
+    });
+  }
+
+  // ── Drag & Drop — permite añadir más archivos arrastrando ──
+  function enableDragDrop() {
+    const wrapper = document.getElementById('videoWrapper');
+    wrapper.addEventListener('dragover', e => e.preventDefault());
+    wrapper.addEventListener('drop', e => {
+      e.preventDefault();
+      handleFiles([...e.dataTransfer.files]);
+    });
+  }
+
+  function handleFiles(files) {
+    const newItems = [];
+    files.sort((a, b) => a.name.localeCompare(b.name, 'es', { numeric: true }));
+    files.forEach(f => {
+      const ext = f.name.split('.').pop().toLowerCase();
+      const src = URL.createObjectURL(f);
+      if (VIDEO_EXTS.includes(ext)) {
+        newItems.push({ name: cleanName(f.name), src, type: 'video', file: f });
+      } else if (IMAGE_EXTS.includes(ext)) {
+        newItems.push({ name: cleanName(f.name), src, type: 'photo', file: f });
+      }
+    });
+    if (newItems.length > 0) {
+      mediaItems = [...mediaItems, ...newItems];
+      buildCarousel();
+      if (currentIndex === -1) selectItem(0);
+    }
+  }
+
+  function cleanName(filename) {
+    return filename.replace(/\.[^.]+$/, '')
+                   .replace(/[-_]/g, ' ')
+                   .replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ═══════════════════════════════════════
+  // UI
+  // ═══════════════════════════════════════
+  function buildCarousel() {
+    const track = document.getElementById('carouselTrack');
+    track.innerHTML = '';
+
+    const videos = mediaItems.filter(m => m.type === 'video');
+    const photos = mediaItems.filter(m => m.type === 'photo');
+
+    document.getElementById('videoCount').textContent = videos.length;
+    document.getElementById('photoCount').textContent = photos.length;
+    document.getElementById('carouselCount').textContent =
+      `${mediaItems.length} ${mediaItems.length === 1 ? 'video' : 'videos'}`;
+
+    mediaItems.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = 'carousel-item' + (i === currentIndex ? ' active' : '');
+      el.dataset.index = i;
+
+      if (item.type === 'photo') {
+        el.innerHTML = `
+          <img src="${item.src}" alt="${item.name}" loading="lazy" />
+          <span class="type-dot photo">🖼️</span>
+          <div class="tooltip">${item.name}</div>
+        `;
+      } else {
+        el.innerHTML = `
+          <div class="vid-thumb">
+            <div class="play-icon">▶</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:0.65rem;font-weight:700;text-align:center;padding:0 4px">${item.name}</div>
+          </div>
+          <span class="type-dot video">🎬</span>
+          <div class="tooltip">${item.name}</div>
+        `;
+        loadVideoThumbnail(el, item.src);
+      }
+
+      el.addEventListener('click', () => selectItem(i));
+      track.appendChild(el);
+    });
+
+    if (mediaItems.length === 0) {
+      document.getElementById('emptyState').style.display = 'flex';
+      document.getElementById('emptyState').style.flexDirection = 'column';
+      document.getElementById('emptyState').style.alignItems = 'center';
+    } else {
+      document.getElementById('emptyState').style.display = 'none';
+    }
+  }
+
+  function loadVideoThumbnail(container, src) {
+    const v = document.createElement('video');
+    v.src = src;
+    v.currentTime = 1;
+    v.muted = true;
+    v.playsInline = true;
+    v.onloadeddata = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 280; canvas.height = 190;
+      const ctx = canvas.getContext('2d');
+      try {
+        ctx.drawImage(v, 0, 0, 280, 190);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        const thumb = document.createElement('div');
+        thumb.className = 'vid-thumb';
+        thumb.style.cssText = `
+          background-image: url(${dataUrl});
+          background-size: cover;
+          background-position: center;
+          width:100%; height:100%;
+        `;
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;';
+        overlay.innerHTML = '<div style="width:32px;height:32px;background:rgba(255,107,53,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;">▶</div>';
+        container.querySelector('.vid-thumb').replaceWith(thumb);
+        thumb.appendChild(overlay);
+      } catch(e) {}
+    };
+  }
+
+  function selectItem(index) {
+    if (index < 0 || index >= mediaItems.length) return;
+    currentIndex = index;
+    const item = mediaItems[index];
+
+    const video = document.getElementById('mainVideo');
+    const image = document.getElementById('mainImage');
+    const overlay = document.getElementById('playOverlay');
+    const badge = document.getElementById('mediaTypeBadge');
+
+    document.getElementById('nowPlayingTitle').textContent = item.name;
+    badge.style.display = '';
+
+    if (item.type === 'video') {
+      video.style.display = 'block';
+      image.style.display = 'none';
+      badge.textContent = 'Video 🎬';
+      badge.className = 'media-type-badge video';
+      overlay.classList.add('visible');
+
+      const oldErr = document.getElementById('videoError');
+      if (oldErr) oldErr.remove();
+
+      video.src = item.src;
+      video.load();
+
+      overlay.onclick = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            overlay.classList.remove('visible');
+          }).catch(() => {
+            showVideoError(item.src);
+          });
+        }
+      };
+      video.onpause = () => overlay.classList.add('visible');
+      video.onplay  = () => overlay.classList.remove('visible');
+      video.onerror = () => showVideoError(item.src);
+      video.onended = () => {
+        overlay.classList.add('visible');
+        if (index + 1 < mediaItems.length) {
+          setTimeout(() => selectItem(index + 1), 800);
+        }
+      };
+
+    } else {
+      video.style.display = 'none';
+      video.pause();
+      image.style.display = 'block';
+      image.src = item.src;
+      badge.textContent = 'Imagen 🖼️';
+      badge.className = 'media-type-badge photo';
+      overlay.classList.remove('visible');
+      overlay.onclick = () => {
+        document.getElementById('overlayImg').src = item.src;
+        document.getElementById('imgOverlay').classList.add('open');
+      };
+    }
+
+    document.querySelectorAll('.carousel-item').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    const activeEl = document.querySelector('.carousel-item.active');
+    if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function showVideoError(src) {
+    const wrapper = document.getElementById('videoWrapper');
+    const existing = document.getElementById('videoError');
+    if (existing) return;
+    const ext = src.split('.').pop().toUpperCase();
+    const msg = document.createElement('div');
+    msg.id = 'videoError';
+    msg.style.cssText = `
+      position:absolute; inset:0; background:rgba(0,0,0,0.85);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      color:white; text-align:center; padding:2rem; z-index:10;
+    `;
+    msg.innerHTML = `
+      <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FFD93D;margin-bottom:0.8rem;">
+        No se puede reproducir este video
+      </div>
+      <div style="font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.7;max-width:380px;">
+        El formato <strong style="color:#FF6B35;">.${ext}</strong> no es compatible con el navegador.<br>
+        Asegúrate de que el archivo esté en la misma carpeta que este HTML<br>
+        y que sea un archivo <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">.mp4</code> válido.
+      </div>
+      <button onclick="document.getElementById('videoError').remove()" style="
+        margin-top:1.5rem; background:var(--orange); color:white; border:none;
+        padding:0.6rem 1.4rem; border-radius:20px; font-weight:700; cursor:pointer; font-size:0.9rem;
+      ">Cerrar</button>
+    `;
+    wrapper.appendChild(msg);
+  }
+
+  function overlayClicked() { /* handled per item */ }
+
+  function scrollCarousel(dir) {
+    const track = document.getElementById('carouselTrack');
+    track.scrollBy({ left: dir * 400, behavior: 'smooth' });
+  }
+
+  function closeImgOverlay() {
+    document.getElementById('imgOverlay').classList.remove('open');
+  }
+
+  document.getElementById('imgOverlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeImgOverlay();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('imgOverlay').classList.contains('open')) {
+      if (e.key === 'Escape') closeImgOverlay();
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') selectItem(currentIndex + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') selectItem(currentIndex - 1);
+    if (e.key === 'Escape') {
+      const v = document.getElementById('mainVideo');
+      if (!v.paused) v.pause();
+    }
+  });
+
+  // ═══════════════════════════════════════
+  // INIT
+  // ═══════════════════════════════════════
+  function init() {
+    enableDragDrop();
+    cargarLista();
+    buildCarousel();
+    if (mediaItems.length > 0) {
+      selectItem(0);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

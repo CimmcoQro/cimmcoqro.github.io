@@ -5228,10 +5228,10 @@ section{
 		  
 		// Construir URL absoluta
 		const urlBase = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
-		const nombreArchivo = 'EEG Cuantitativo como Biomarcador y Medida de Evidencia.pptx';
-		const urlPresentacionEEG = urlBase + '/evidencias/' + encodeURIComponent(nombreArchivo);
+		const nombreArchivo = 'EEG_Cuantitativo_como_Biomarcador_y_Medida_de_Evidencia.pptx';
+		const urlPresentacionEEG = './evidencias/' + nombreArchivo;
 		const viewerEEG = 'https://view.officeapps.live.com/op/embed.aspx?src=' 
-							+ encodeURIComponent(urlPresentacionEEG);
+							+ urlPresentacionEEG;
 		  
 		const overlay = document.getElementById('eegPresentationOverlay');
 		const iframe  = document.getElementById('eegPresentationIframe');

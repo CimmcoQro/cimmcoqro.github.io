@@ -3954,7 +3954,7 @@ section{
 
     <!-- ===== SCRIPTS ===== -->
     <!-- FullCalendar -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
     
     <script>
@@ -5227,22 +5227,8 @@ function abrirPresentacionEEG(event) {
 
   const nombreArchivo = 'EEG_Cuantitativo_como_Biomarcador_y_Medida_de_Evidencia.pptx';
   const urlPresentacionEEG = window.location.origin + '/evidencias/' + nombreArchivo;
-  const viewerEEG = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(urlPresentacionEEG);
 
-  console.log(urlPresentacionEEG);
-  console.log(viewerEEG);
-
-  const overlay = document.getElementById('eegPresentationOverlay');
-  const iframe = document.getElementById('eegPresentationIframe');
-
-  if (!overlay || !iframe) {
-    console.error('No se encontró el overlay o el iframe');
-    return;
-  }
-
-  iframe.src = viewerEEG;
-  overlay.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  window.open(urlPresentacionEEG, '_blank');
 }
 
 function cerrarPresentacionEEG() {

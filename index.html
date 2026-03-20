@@ -5226,7 +5226,7 @@ section{
 function abrirPresentacionEEG(event) {
   if (event) event.preventDefault();
 
-  const nombreArchivo = 'EEG_Cuantitativo_como_Biomarcador_y_Medida_de_Evidencia.pptx';
+  const nombreArchivo = 'EE_Cuantitativo_como_Biomarcador_y_Medida_de_Evidencia.pptx';
   const urlPresentacionEEG = window.location.origin + '/evidencias/' + nombreArchivo;
   const viewerEEG = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(urlPresentacionEEG);
 
@@ -5258,7 +5258,6 @@ document.addEventListener('keydown', function(e) {
   }
 });
 </script>
-
 <!-- Overlay para mostrar la presentación de EEG -->
 <div id="eegPresentationOverlay" 
      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;

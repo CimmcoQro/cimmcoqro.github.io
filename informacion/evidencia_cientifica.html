@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publicaciones Científicas · CIMMCO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --teal-dark:  #1a6b72;
+  --teal:       #2a9d8f;
+  --teal-light: #4db6ac;
+  --teal-pale:  #e0f4f2;
+  --teal-bg:    #f0faf9;
+  --orange:     #e07b39;
+  --orange-light: #fef3eb;
+  --white:      #ffffff;
+  --gray-50:    #f8fafb;
+  --gray-100:   #f0f2f4;
+  --gray-200:   #e2e6ea;
+  --gray-500:   #6c757d;
+  --gray-700:   #444c54;
+  --text:       #2c3e50;
+  --text-light: #5a6a7a;
+  --purple:     #6c63ff;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 0.75rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+.nav-logo {
+  font-size: 1.4rem; font-weight: 800; color: var(--teal-dark);
+  letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--orange); }
+.nav-links {
+  display: flex; align-items: center; gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.nav-links a {
+  font-size: 0.88rem; font-weight: 600;
+  color: var(--gray-700); text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-cta {
+  background: var(--orange); color: var(--white) !important;
+  padding: 0.5rem 1.3rem; border-radius: 2rem;
+  transition: background 0.2s, transform 0.2s !important;
+}
+.nav-cta:hover { background: #c96d2e !important; transform: translateY(-1px); }
+
+/* ── HERO ── */
+#hero {
+  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, var(--teal-light) 100%);
+  padding: 4rem 3rem 3.5rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.35rem 1rem; border-radius: 2rem;
+  margin-bottom: 1.5rem;
+}
+#hero h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800; color: white; line-height: 1.15;
+  margin-bottom: 1rem;
+}
+#hero h1 span { color: rgba(255,255,255,0.75); font-weight: 300; }
+.hero-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.82);
+  max-width: 640px; margin: 0 auto 2rem;
+  font-weight: 400; line-height: 1.7;
+}
+.hero-actions {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--orange); color: white;
+  font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.95rem;
+  padding: 0.85rem 2rem; border-radius: 2rem;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+  box-shadow: 0 4px 16px rgba(224,123,57,0.4);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { background: #c96d2e; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,123,57,0.4); }
+.btn-outline {
+  background: rgba(255,255,255,0.15); color: white;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 0.95rem;
+  padding: 0.85rem 2rem; border-radius: 2rem;
+  text-decoration: none; transition: background 0.2s;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.25); }
+
+/* ── SECCIONES ── */
+section { padding: 4.5rem 3rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-tag {
+  display: inline-block; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.6rem;
+}
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 800;
+  color: var(--text); line-height: 1.2; margin-bottom: 0.8rem;
+}
+h2 span { color: var(--teal); }
+.section-lead {
+  font-size: 1.02rem; color: var(--text-light);
+  max-width: 720px; line-height: 1.75; margin-bottom: 3rem;
+}
+
+/* ── FILTROS ── */
+.filters {
+  display: flex; gap: 0.7rem; flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.filter-btn {
+  font-family: inherit; font-size: 0.85rem; font-weight: 700;
+  padding: 0.55rem 1.2rem; border-radius: 2rem;
+  border: 1.5px solid var(--gray-200);
+  background: var(--white); color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+.filter-btn.active {
+  background: var(--teal); color: white; border-color: var(--teal);
+}
+.filter-count {
+  display: inline-block;
+  background: rgba(0,0,0,0.08);
+  border-radius: 1rem;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+.filter-btn.active .filter-count {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── PUBLICACIONES ── */
+#publicaciones { background: var(--white); }
+.pub-grid {
+  display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+}
+
+/* Tarjeta: 3 columnas → icono | contenido | imagen */
+.pub-card {
+  background: var(--white); border: 1.5px solid var(--gray-200);
+  border-radius: 1.2rem; padding: 1.8rem;
+  display: grid;
+  grid-template-columns: 72px 1fr 260px;
+  gap: 1.5rem;
+  align-items: start;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.pub-card:hover {
+  border-color: var(--teal); transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(42,157,143,0.12);
+}
+.pub-icon {
+  width: 72px; height: 72px; border-radius: 1rem;
+  background: var(--teal-pale); display: flex; align-items: center;
+  justify-content: center; font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.pub-content h3 {
+  font-size: 1.12rem; font-weight: 800; color: var(--teal-dark);
+  margin-bottom: 0.4rem;
+  line-height: 1.35;
+}
+.pub-authors {
+  font-size: 0.85rem; color: var(--text-light); font-style: italic;
+  margin-bottom: 0.7rem;
+}
+.pub-journal {
+  display: inline-block; font-size: 0.75rem; font-weight: 700;
+  background: var(--teal); color: white;
+  padding: 0.2rem 0.7rem; border-radius: 2rem;
+  margin-bottom: 0.9rem;
+}
+.pub-journal.review { background: var(--orange); }
+.pub-journal.preprint { background: var(--purple); }
+.pub-desc {
+  font-size: 0.94rem; color: var(--text); line-height: 1.7;
+  margin-bottom: 0.9rem;
+}
+.pub-results {
+  background: var(--teal-bg);
+  border-left: 3px solid var(--teal);
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.pub-results-title {
+  font-size: 0.72rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--teal-dark); margin-bottom: 0.4rem;
+}
+.pub-results ul { list-style: none; padding: 0; }
+.pub-results li {
+  font-size: 0.87rem; color: var(--text); line-height: 1.55;
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  position: relative;
+}
+.pub-results li::before {
+  content: '▸';
+  position: absolute; left: 0;
+  color: var(--teal); font-weight: 800;
+}
+.pub-links {
+  display: flex; gap: 0.8rem; flex-wrap: wrap;
+}
+.pub-link {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.85rem; font-weight: 700;
+  color: var(--teal); text-decoration: none;
+  padding: 0.5rem 1rem; border-radius: 2rem;
+  border: 1.5px solid var(--teal);
+  transition: background 0.2s, color 0.2s;
+}
+.pub-link:hover { background: var(--teal); color: white; }
+.pub-link.external {
+  color: var(--teal-dark); border-color: var(--teal-dark);
+}
+.pub-link.external:hover { background: var(--teal-dark); color: white; }
+
+/* ── MINIATURA (columna derecha) ── */
+.pub-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: zoom-in;
+}
+.pub-thumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0.8rem;
+  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+.pub-thumb:hover img {
+  transform: scale(1.03);
+  box-shadow: 0 10px 24px rgba(42,157,143,0.2);
+}
+.pub-thumb-caption {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  cursor: zoom-out;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 95%;
+  max-height: 90vh;
+  border-radius: 0.8rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  background: white;
+}
+.lightbox-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: rgba(255,255,255,0.15);
+  border: none; color: white;
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.3rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+.lightbox-caption {
+  position: absolute; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.85rem;
+  font-style: italic;
+  background: rgba(0,0,0,0.5);
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #0f4a52; padding: 2rem 3rem;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+footer p { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1000px) {
+  .pub-card {
+    grid-template-columns: 64px 1fr 200px;
+    gap: 1.2rem;
+  }
+  .pub-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+}
+@media (max-width: 820px) {
+  nav { padding: 0.75rem 1.5rem; }
+  .nav-links { display: none; }
+  section { padding: 3rem 1.5rem; }
+  .pub-card {
+    grid-template-columns: 56px 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .pub-icon { width: 56px; height: 56px; font-size: 1.4rem; }
+  .pub-thumb {
+    grid-column: 1 / -1;
+    margin-top: 0.8rem;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  footer { padding: 1.5rem; }
+}
+@media (max-width: 580px) {
+  h2 { font-size: 1.65rem; }
+  .pub-card { padding: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CIMMCO<span>.</span></div>
+  <div class="nav-links">
+    <a href="#publicaciones">Publicaciones</a>
+    <a href="../index.html" class="nav-cta">← Volver al inicio</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">CIMMCO · Respaldo Científico</div>
+    <h1>De la ciencia <span>a la clínica</span></h1>
+    <p class="hero-sub">Nuestro modelo terapéutico se publica, se revisa y se contrasta con la comunidad científica internacional. Aquí encontrarás los artículos completos, DOIs, PDFs descargables y preprints.</p>
+    <div class="hero-actions">
+      <a href="#publicaciones" class="btn-primary">Ver publicaciones →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICACIONES -->
+<section id="publicaciones">
+  <div class="section-inner">
+    <div class="section-tag">Publicaciones revisadas por pares</div>
+    <h2>Nuestros <span>artículos científicos</span></h2>
+    <p class="section-lead">Cada documento está disponible para su consulta y descarga. Filtra por estado de publicación o consulta todos los PDFs completos, versiones online y preprints. Haz clic en cualquier figura para ampliarla.</p>
+
+    <!-- FILTROS -->
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Todas <span class="filter-count">7</span></button>
+      <button class="filter-btn" data-filter="published">Publicadas <span class="filter-count">3</span></button>
+      <button class="filter-btn" data-filter="review">En revisión <span class="filter-count">2</span></button>
+      <button class="filter-btn" data-filter="preprint">Preprints <span class="filter-count">2</span></button>
+    </div>
+
+    <div class="pub-grid" id="pubGrid">
+
+      <!-- 1. Archives of Gerontology and Geriatrics -->
+      <article class="pub-card" data-status="published">
+        <div class="pub-icon">🏃</div>
+        <div class="pub-content">
+          <span class="pub-journal">Archives of Gerontology and Geriatrics · 2026</span>
+          <h3>Kinestesia: A neuroplasticity-based cognitive–motor intervention for brain health in aging — proof-of-concept pilot evidence</h3>
+          <p class="pub-authors">Bosch-Bayard, J., Guerrero-Sauzameda, J., Navarrete-Torres, L., et al.</p>
+          <p class="pub-desc">Estudio piloto de prueba de concepto (N = 22; 11 sanos, 11 con DCL) que evalúa la plataforma Kinestesia: 30 sesiones de entrenamiento cognitivo-motor simultáneo con dificultad adaptativa en tiempo real. Establece las bases para un ensayo controlado aleatorizado.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Resultados principales</div>
+            <ul>
+              <li>Mejora de <strong>+60 metros</strong> en el test de marcha de 6 minutos (6MWT), con tamaño del efecto grande (d = 1,20; p &lt; 0,001).</li>
+              <li><strong>100% de adherencia</strong> al protocolo: los 22 participantes completaron las 30 sesiones.</li>
+              <li>Mejoras significativas en <strong>memoria diferida</strong> y <strong>funciones ejecutivas</strong> tras la intervención.</li>
+              <li>Diferencias espectrales de EEG entre grupos (sanos vs. DCL) presentes al inicio <strong>desaparecieron tras la intervención</strong> en 21 de 23 índices evaluados.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="2026 - Kinestesia, A neuroplasticity-based cognitive–motor intervention for brain health in aging.pdf" class="pub-link" download>📄 Descargar PDF</a>
+            <a href="https://doi.org/10.1016/j.archger.2026.106346" class="pub-link external" target="_blank" rel="noopener">🌐 Ver en Elsevier (DOI)</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/kinestesia_agg_fig1.png" alt="Figura destacada: mejora en 6MWT y funciones cognitivas" loading="lazy"
+               data-caption="Fig. 1 · Mejora en el test de marcha de 6 minutos y funciones cognitivas (Bosch-Bayard et al., 2026)">
+          <div class="pub-thumb-caption">Mejora en 6MWT y cognición</div>
+        </div>
+      </article>
+
+      <!-- 2. Frontiers in Aging Neuroscience -->
+      <article class="pub-card" data-status="published">
+        <div class="pub-icon">📊</div>
+        <div class="pub-content">
+          <span class="pub-journal">Frontiers in Aging Neuroscience · 2026</span>
+          <h3>Kinestesia: the prefrontal EEG response to a cognitive-motor intervention is graded by baseline cognitive status</h3>
+          <p class="pub-authors">Bosch-Bayard, J., Guerrero-Sauzameda, J., Navarrete-Torres, L., et al.</p>
+          <p class="pub-desc">Estudio neurofisiológico complementario (N = 19) que demuestra que la respuesta electrocortical a Kinestesia está graduada por el estado cognitivo basal medido con MoCA. Los hallazgos apoyan la hipótesis del andamiaje cognitivo-motor.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Resultados principales</div>
+            <ul>
+              <li><strong>8 de 11 índices EEG</strong> pre-especificados mostraron asociación significativa con el estado cognitivo basal tras corrección FDR (q &lt; 0,05).</li>
+              <li>Los efectos más robustos se observaron en el <strong>Engagement Index</strong> y el <strong>Alpha/Beta Ratio</strong> en el electrodo prefrontal Fp2 (ρ ≈ ±0,70; q = 0,008).</li>
+              <li>La respuesta prefrontal fue <strong>mayor en participantes con menor estado cognitivo basal</strong>, consistente con el principio de "mayor margen de mejora".</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="kinestesia_eeg_Frontiers_final.pdf" class="pub-link" download>📄 Descargar PDF</a>
+            <a href="https://www.frontiersin.org/journals/aging-neuroscience/articles/10.3389/fnagi.2026.1931028/full" class="pub-link external" target="_blank" rel="noopener">🌐 Ver en Frontiers</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/kinestesia_eeg_frontiers_fig2.png" alt="Figura destacada: respuesta prefrontal EEG por estado cognitivo basal" loading="lazy"
+               data-caption="Fig. 2 · Correlación entre el estado cognitivo basal (MoCA) e índices EEG prefrontales (Bosch-Bayard et al., 2026)">
+          <div class="pub-thumb-caption">Respuesta EEG prefrontal</div>
+        </div>
+      </article>
+
+      <!-- 3. Neuropsychological Rehabilitation (en revisión) -->
+      <article class="pub-card" data-status="review">
+        <div class="pub-icon">📝</div>
+        <div class="pub-content">
+          <span class="pub-journal review">Neuropsychological Rehabilitation · En revisión (2026)</span>
+          <h3>Kinestesia: feasibility and preliminary efficacy of a sensory-motor cognitive intervention in community-dwelling older adults with and without Mild Cognitive Impairment</h3>
+          <p class="pub-authors">Bosch-Bayard, J., Guerrero-Sauzameda, J., Navarrete-Torres, L., et al.</p>
+          <p class="pub-desc">Manuscrito completo en revisión por pares que reporta el ensayo piloto de Kinestesia con la metodología completa, análisis por dominio, reserva cognitiva y materiales suplementarios. Versión de prueba (proof) del manuscrito enviado.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Resultados principales</div>
+            <ul>
+              <li>Mejoras corregidas por FDR en <strong>8 variables cognitivas</strong>: memoria verbal, secuenciación ejecutiva y rendimiento global (d = 0,65–1,07).</li>
+              <li>Mejoras en <strong>ambas medidas de marcha</strong> (velocidad y resistencia), con tamaños del efecto d = 0,76–1,20.</li>
+              <li><strong>100% de adherencia</strong>: ningún participante abandonó el protocolo de 30 sesiones.</li>
+              <li>Efectos <strong>modulados por la reserva cognitiva basal</strong>: participantes con menor reserva mostraron mayores ganancias relativas.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="NRH-ES-148.26.R1_Proof_hi.pdf" class="pub-link" download>📄 Descargar PDF (proof)</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/kinestesia_nrh_fig3.png" alt="Figura destacada: efectos por dominio cognitivo" loading="lazy"
+               data-caption="Fig. 3 · Tamaños del efecto por dominio cognitivo tras 30 sesiones de Kinestesia (en revisión, 2026)">
+          <div class="pub-thumb-caption">Efectos por dominio</div>
+        </div>
+      </article>
+
+      <!-- 4. Morpheus (en revisión) -->
+      <article class="pub-card" data-status="review">
+        <div class="pub-icon">📖</div>
+        <div class="pub-content">
+          <span class="pub-journal review">Morpheus · Revista Digital de Psicología · U. Marista de Querétaro · En revisión (2026)</span>
+          <h3>De la ciencia a la clínica: el EEG cuantitativo como eje de una terapia basada en evidencia</h3>
+          <p class="pub-authors">Guerrero-Sauzameda, J., Sánchez-Rodríguez, J., Flores, A., Flores, K., Resendiz-Flores, E., Farías, E., Morales-Chacón, L., & Bosch-Bayard, J.</p>
+          <p class="pub-desc">Artículo de divulgación científica que integra los hallazgos del marco normativo qEEG (Brain Topography) y del ensayo piloto de Kinestesia, proponiendo el qEEG normativo como hilo conductor del proceso terapéutico: diagnóstico, prescripción, monitorización y generación de evidencia.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Aportes principales</div>
+            <ul>
+              <li>Propone un <strong>flujo de trabajo clínico basado en qEEG normativo</strong> aplicable a cualquier protocolo de neuromodulación.</li>
+              <li>Ilustra el modelo con el <strong>caso clínico B.M.</strong> (8 años, síndrome disejecutivo) tratado con 21 sesiones de tDCS + Kinestesia.</li>
+              <li>Muestra cómo el qEEG permite <strong>objetivar cambios terapéuticos</strong> que no son evidentes en escalas conductuales.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="morpheus_ciencia_clinica_v4.pdf" class="pub-link" download>📄 Descargar PDF (preprint)</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/morpheus_fig1.png" alt="Figura destacada: flujo clínico con qEEG normativo" loading="lazy"
+               data-caption="Fig. 1 · Flujo clínico del qEEG normativo como eje del proceso terapéutico (Guerrero-Sauzameda et al., 2026)">
+          <div class="pub-thumb-caption">Flujo clínico con qEEG</div>
+        </div>
+      </article>
+
+      <!-- 5. Brain Topography (qEEG) -->
+      <article class="pub-card" data-status="published">
+        <div class="pub-icon">🧠</div>
+        <div class="pub-content">
+          <span class="pub-journal">Brain Topography · 2026</span>
+          <h3>Back to the Future of qEEG: Lifespan Normative Modeling of Spectral Ratios and Functional Indices with Potential Applications to Therapeutic Monitoring</h3>
+          <p class="pub-authors">Bosch-Bayard, J., Guerrero-Sauzameda, J., Bosch-Bayard, R. I., et al.</p>
+          <p class="pub-desc">Este artículo establece el primer marco normativo sistemático para índices funcionales derivados del EEG cuantitativo (FEDP), con modelos GAMLSS ajustados por edad sobre la base de datos multinacional HarMNqEEG (n = 1.564; 5–97 años; 9 países). Artículo de acceso abierto.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Aportes principales</div>
+            <ul>
+              <li>Introduce la <strong>Normalización Espectral por Electrodo (ESN)</strong>, un método que permite comparar EEG entre personas y a lo largo del tiempo.</li>
+              <li>Proporciona <strong>Z-scores individualizados</strong> para ratios espectrales, índices de estado funcional y asimetrías hemisféricas.</li>
+              <li>Base de datos normativa: <strong>n = 1.564</strong> participantes de 5 a 97 años en 9 países.</li>
+              <li>Incluye un <strong>caso clínico de rehabilitación con tDCS + Kinestesia</strong> que ilustra la aplicación del marco normativo.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="2026 Bosch-Bayard_Back to the future of qEEG -Brain_Topography.pdf" class="pub-link" download>📄 Descargar PDF</a>
+            <a href="https://link.springer.com/article/10.1007/s10548-026-01240-4" class="pub-link external" target="_blank" rel="noopener">🌐 Ver en Springer (Open Access)</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/qeeg_braintopography_fig2.png" alt="Figura destacada: Z-scores por edad de índices qEEG" loading="lazy"
+               data-caption="Fig. 2 · Curvas normativas de índices qEEG por edad (n = 1.564; Bosch-Bayard et al., 2026)">
+          <div class="pub-thumb-caption">Curvas normativas qEEG</div>
+        </div>
+      </article>
+
+      <!-- 6. ARQA (Research Square preprint) -->
+      <article class="pub-card" data-status="preprint">
+        <div class="pub-icon">🔬</div>
+        <div class="pub-content">
+          <span class="pub-journal preprint">Research Square · Preprint · 2026</span>
+          <h3>Artifact Removal Quality Assessment (ARQA): A Recording-Level Audit of EEG Artifact Removal Using Internal Preservation Controls</h3>
+          <p class="pub-authors">Bosch-Bayard, J., et al.</p>
+          <p class="pub-desc">Preprint que presenta ARQA, una auditoría post hoc agnóstica al método que utiliza segmentos libres de artefactos marcados por expertos como controles negativos internos. Evalúa tres dominios: preservación en ventanas limpias, supresión de artefactos en ventanas contaminadas y cobertura disponible.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Hallazgos principales</div>
+            <ul>
+              <li>Aplicado a <strong>GEDAI v1.5 y v1.7</strong> en dos registros de EEG en reposo con ojos cerrados.</li>
+              <li>Demuestra que la <strong>calidad a nivel de registro</strong> no puede inferirse solo de la identidad del algoritmo.</li>
+              <li>Tampoco puede inferirse de las <strong>puntuaciones internas</strong> que reportan las herramientas de eliminación de artefactos.</li>
+              <li>Propone el uso de <strong>controles negativos internos</strong> como estándar de auditoría reproducible.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="ARQA.pdf" class="pub-link" download>📄 Descargar PDF</a>
+            <a href="https://www.researchsquare.com/article/rs-11118324/v1" class="pub-link external" target="_blank" rel="noopener">🌐 Ver en Research Square</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/arqa_fig1.png" alt="Figura destacada: auditoría de eliminación de artefactos EEG" loading="lazy"
+               data-caption="Fig. 1 · Comparación de preservación y supresión entre versiones de GEDAI usando ARQA (2026)">
+          <div class="pub-thumb-caption">Auditoría ARQA</div>
+        </div>
+      </article>
+
+      <!-- 7. Standing on the 10–20 System (Research Square preprint) -->
+      <article class="pub-card" data-status="preprint">
+        <div class="pub-icon">📍</div>
+        <div class="pub-content">
+          <span class="pub-journal preprint">Research Square · Preprint · 2026</span>
+          <h3>Standing on the 10–20 System: The Right Density for the Right Question</h3>
+          <p class="pub-authors">Bosch-Bayard, J., et al.</p>
+          <p class="pub-desc">Revisión sistemática que aborda una pregunta específica de aplicación: ¿para qué tareas de inferencia a nivel de fuente tiene utilidad demostrada el sistema estándar 10–20 (19 canales) y cuándo la mayor densidad proporciona una ganancia necesaria? Integra análisis teóricos, simulaciones y una encuesta estructurada de evidencia clínica.</p>
+          <div class="pub-results">
+            <div class="pub-results-title">Aportes principales</div>
+            <ul>
+              <li>Propone una <strong>taxonomía de cuatro niveles</strong> según la escala espacial de inferencia (desde sensor hasta localización focal/dipolar).</li>
+              <li>Define <strong>qué tareas clínicas y de investigación</strong> son válidas con 19 canales y cuáles requieren mayor densidad.</li>
+              <li>Ofrece una <strong>guía práctica</strong> para elegir la densidad de electrodos según la pregunta científica o clínica.</li>
+            </ul>
+          </div>
+          <div class="pub-links">
+            <a href="Standing on the 10–20 System.pdf" class="pub-link" download>📄 Descargar PDF</a>
+            <a href="https://dx.doi.org/10.21203/rs.3.rs-11053508/v1" class="pub-link external" target="_blank" rel="noopener">🌐 Ver en Research Square</a>
+          </div>
+        </div>
+        <div class="pub-thumb" onclick="openLightbox(this)">
+          <img src="./figs/10-20_fig1.png" alt="Figura destacada: taxonomía de 4 niveles del sistema 10–20" loading="lazy"
+               data-caption="Fig. 1 · Taxonomía de cuatro niveles según la escala espacial de inferencia (2026)">
+          <div class="pub-thumb-caption">Taxonomía 10–20</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Cerrar">✕</button>
+  <img id="lightboxImg" src="" alt="Figura ampliada">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>CIMMCO · Centro Integrador del Movimiento, Mente y Conducta · Querétaro, México</p>
+  <p style="margin-top:0.5rem;">Evidencia científica · Publicaciones revisadas por pares · 2025–2026</p>
+</footer>
+
+<script>
+// ===== FILTROS DE PUBLICACIONES =====
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const pubCards = document.querySelectorAll('.pub-card');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+
+            pubCards.forEach(card => {
+                if (filter === 'all' || card.dataset.status === filter) {
+                    card.style.display = '';
+                    card.style.opacity = '0';
+                    requestAnimationFrame(() => {
+                        card.style.transition = 'opacity 0.3s ease';
+                        card.style.opacity = '1';
+                    });
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+// ===== LIGHTBOX =====
+function openLightbox(thumbEl) {
+    const img = thumbEl.querySelector('img');
+    if (!img) return;
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightboxCaption.textContent = img.dataset.caption || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Cerrar con Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>

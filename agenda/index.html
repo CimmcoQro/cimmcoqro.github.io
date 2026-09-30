@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Cita - CIMMCO</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- FullCalendar CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
+    <style>
+    :root {
+      --primary: #0F3D5E;
+      --secondary: #1FA6A0;
+      --accent: #F37A4A;
+      --bg: #F6F8FB;
+      --surface: #FFFFFF;
+      --surface-2: #F1F5F9;
+      --text: #0F172A;
+      --muted: #475569;
+      --gray: #64748B;
+      --border: rgba(15, 23, 42, 0.10);
+      --success: #16A34A;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --radius: 14px;
+      --radius-lg: 18px;
+      --transition: all 0.25s ease;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --grad-brand: linear-gradient(135deg, var(--primary), var(--secondary));
+      --grad-soft: linear-gradient(135deg, rgba(31,166,160,0.12), rgba(243,122,74,0.10));
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--primary); }
+    a { color: inherit; }
+
+    /* ===== TOPBAR ===== */
+    .agenda-topbar {
+      background: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 12px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .agenda-topbar-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .agenda-topbar img { height: 46px; width: auto; }
+    .agenda-topbar .back-home {
+      text-decoration: none; color: var(--primary);
+      font-size: 0.88rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: var(--transition);
+    }
+    .agenda-topbar .back-home:hover { color: var(--secondary); }
+
+    /* ===== HERO / ENCABEZADO ===== */
+    .agenda-hero {
+      background: var(--grad-brand);
+      color: white;
+      padding: 50px 24px 40px;
+      text-align: center;
+    }
+    .agenda-hero h1 {
+      color: white;
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+    .agenda-hero p {
+      color: rgba(255,255,255,0.9);
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* ===== LAYOUT ===== */
+    .agenda-wrapper {
+      max-width: 1100px;
+      margin: -30px auto 60px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .step-title {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.15rem;
+      margin-bottom: 22px;
+      color: var(--primary);
+    }
+    .step-number {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--grad-brand); color: white;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ===== CALENDARIO ===== */
+    #calendar {
+      max-width: 100%;
+    }
+    .fc .fc-toolbar-title {
+      font-family: 'Poppins', sans-serif;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    .fc .fc-button-primary {
+      background: var(--secondary) !important;
+      border-color: var(--secondary) !important;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .fc .fc-button-primary:hover {
+      background: var(--primary) !important;
+      border-color: var(--primary) !important;
+    }
+    .fc .fc-button-primary:disabled {
+      background: #cbd5e1 !important;
+      border-color: #cbd5e1 !important;
+    }
+    .fc .fc-daygrid-day:hover {
+      background: rgba(31,166,160,0.05);
+      cursor: pointer;
+    }
+    .fc .fc-daygrid-day.fc-day-selected {
+      background: rgba(31,166,160,0.15);
+    }
+    .fc .fc-daygrid-day.fc-day-disabled {
+      background: #f1f5f9;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .fc .fc-daygrid-day.fc-day-disabled .fc-daygrid-day-number {
+      color: #94a3b8;
+    }
+    .fc .fc-day-today {
+      background: rgba(243,122,74,0.08) !important;
+    }
+    .fc-daygrid-day-frame {
+      min-height: 60px;
+    }
+
+    /* ===== SLOTS DE HORA ===== */
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .time-slot {
+      padding: 14px 8px;
+      background: var(--surface-2);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+    .time-slot:hover {
+      border-color: var(--secondary);
+      background: rgba(31,166,160,0.08);
+    }
+    .time-slot.selected {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+    .time-slot.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+    .time-slot.disabled:hover {
+      border-color: transparent;
+      background: var(--surface-2);
+    }
+
+    .empty-state {
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--surface-2);
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+    .empty-state i {
+      display: block; font-size: 2rem;
+      color: var(--secondary); margin-bottom: 12px;
+    }
+
+    /* ===== FORMULARIO ===== */
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    }
+    .form-group { margin-bottom: 0; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      display: block; margin-bottom: 8px;
+      font-weight: 600; color: var(--text); font-size: 0.9rem;
+    }
+    .form-label .req { color: var(--accent); }
+    .form-control {
+      width: 100%; padding: 13px 14px;
+      border: 1px solid #ddd; border-radius: 10px;
+      font-size: 0.95rem; font-family: inherit;
+      transition: var(--transition);
+      background: white;
+    }
+    .form-control:focus {
+      outline: none; border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(31,166,160,0.1);
+    }
+    textarea.form-control {
+      min-height: 100px; resize: vertical;
+    }
+    select.form-control { cursor: pointer; }
+
+    /* ===== RESUMEN ===== */
+    .summary-box {
+      background: var(--grad-soft);
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid var(--border);
+    }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(15,23,42,0.1);
+      font-size: 0.95rem;
+      gap: 15px;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { color: var(--muted); font-weight: 600; }
+    .summary-value {
+      color: var(--primary); font-weight: 600; text-align: right;
+      word-break: break-word;
+    }
+    .summary-value.placeholder { color: var(--gray); font-style: italic; font-weight: 400; }
+
+    /* ===== BOTONES ===== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 30px;
+      border-radius: 999px; font-weight: 600;
+      cursor: pointer; font-family: inherit; font-size: 0.95rem;
+      transition: var(--transition); border: 2px solid transparent;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: white; border-color: var(--accent);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: transparent; color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .btn-primary:disabled {
+      background: #cbd5e1; border-color: #cbd5e1;
+      color: white; cursor: not-allowed; transform: none;
+    }
+    .btn-outline {
+      background: transparent; color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .btn-block { width: 100%; }
+
+    /* ===== SUCCESS ===== */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-screen.show { display: block; }
+    .success-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(22,163,74,0.12);
+      color: var(--success);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 22px;
+      animation: popIn 0.4s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .success-screen h2 {
+      font-size: 1.5rem; margin-bottom: 12px;
+    }
+    .success-screen p {
+      color: var(--muted); margin-bottom: 25px;
+      max-width: 500px; margin-left: auto; margin-right: auto;
+    }
+    .success-detail {
+      display: inline-block;
+      background: var(--surface-2);
+      padding: 20px 30px; border-radius: var(--radius);
+      margin-bottom: 25px;
+      text-align: left;
+    }
+    .success-detail strong { color: var(--primary); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .agenda-topbar img { height: 38px; }
+      .agenda-hero { padding: 40px 20px 30px; }
+      .agenda-hero h1 { font-size: 1.7rem; }
+      .agenda-wrapper { padding: 0 16px; margin-top: -20px; }
+      .card { padding: 22px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .time-slots { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+      .fc .fc-toolbar { flex-direction: column; gap: 10px; }
+      .fc .fc-toolbar-title { font-size: 1rem !important; }
+    }
+    </style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<div class="agenda-topbar">
+    <div class="agenda-topbar-inner">
+        <a href="../index.html" aria-label="CIMMCO - Inicio">
+            <img src="../logos/cimmco-logo.png" alt="CIMMCO">
+        </a>
+        <a href="../index.html" class="back-home">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="agenda-hero">
+    <h1>Agendar Cita en CIMMCO</h1>
+    <p>Selecciona la fecha y hora que mejor te acomode. Recibirás confirmación por correo y WhatsApp.</p>
+</div>
+
+<!-- ===== WRAPPER ===== -->
+<div class="agenda-wrapper">
+
+    <!-- ===== FORMULARIO PRINCIPAL ===== -->
+    <div id="bookingFlow">
+
+        <!-- PASO 1: Fecha -->
+        <div class="card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Elige una fecha
+            </div>
+            <div id="calendar"></div>
+        </div>
+
+        <!-- PASO 2: Hora -->
+        <div class="card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Elige un horario
+            </div>
+            <div id="slotsContainer">
+                <div class="empty-state">
+                    <i class="far fa-calendar-check"></i>
+                    Selecciona primero una fecha en el calendario para ver los horarios disponibles.
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 3: Datos -->
+        <div class="card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Tus datos
+            </div>
+            <form id="bookingForm" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="bkName">Nombre completo <span class="req">*</span></label>
+                        <input type="text" id="bkName" class="form-control" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bkPhone">Teléfono / WhatsApp <span class="req">*</span></label>
+                        <input type="tel" id="bkPhone" class="form-control" required autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bkEmail">Correo electrónico <span class="req">*</span></label>
+                        <input type="email" id="bkEmail" class="form-control" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bkService">Servicio de interés <span class="req">*</span></label>
+                        <select id="bkService" class="form-control" required>
+                            <option value="">— Selecciona —</option>
+                            <option>Consulta Neurológica</option>
+                            <option>Electroencefalograma (EEG)</option>
+                            <option>Neuromodulación (tDCS / rTMS)</option>
+                            <option>KINESTESIA®</option>
+                            <option>Terapia Multisensorial</option>
+                            <option>Terapia de Lenguaje</option>
+                            <option>Terapia Física</option>
+                            <option>Evaluaciones</option>
+                            <option>Adulto Mayor</option>
+                            <option>Atención a Familias</option>
+                            <option>No estoy seguro / Quiero orientación</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label" for="bkNotes">Notas o motivo de consulta</label>
+                        <textarea id="bkNotes" class="form-control" placeholder="Cuéntanos brevemente qué te trae a CIMMCO (opcional)"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- PASO 4: Resumen y confirmación -->
+        <div class="card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Confirma tu cita
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span class="summary-label"><i class="far fa-calendar"></i> Fecha</span>
+                    <span class="summary-value placeholder" id="sumDate">Sin seleccionar</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label"><i class="far fa-clock"></i> Hora</span>
+                    <span class="summary-value placeholder" id="sumTime">Sin seleccionar</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label"><i class="fas fa-user"></i> Nombre</span>
+                    <span class="summary-value placeholder" id="sumName">Sin completar</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label"><i class="fas fa-stethoscope"></i> Servicio</span>
+                    <span class="summary-value placeholder" id="sumService">Sin seleccionar</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <button type="button" class="btn btn-primary btn-block" id="confirmBtn" disabled>
+                    <i class="fas fa-check-circle"></i> Confirmar Cita
+                </button>
+            </div>
+
+            <div id="formMessage" style="margin-top:16px; display:none; padding:14px; border-radius:10px; font-size:0.9rem;"></div>
+        </div>
+    </div>
+
+    <!-- ===== PANTALLA DE ÉXITO ===== -->
+    <div class="card success-screen" id="successScreen">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2>¡Cita agendada con éxito!</h2>
+        <p>Hemos recibido tu solicitud. Te contactaremos por correo y WhatsApp para confirmar los detalles finales.</p>
+
+        <div class="success-detail">
+            <div style="margin-bottom:10px;"><strong>Fecha:</strong> <span id="okDate">—</span></div>
+            <div style="margin-bottom:10px;"><strong>Hora:</strong> <span id="okTime">—</span></div>
+            <div style="margin-bottom:10px;"><strong>Servicio:</strong> <span id="okService">—</span></div>
+            <div><strong>Paciente:</strong> <span id="okName">—</span></div>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a href="../index.html" class="btn btn-outline">
+                <i class="fas fa-home"></i> Volver al inicio
+            </a>
+            <a href="https://wa.me/5214423803342" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ===== FULLCALENDAR JS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ===== CONFIGURACIÓN =====
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZtb59-4SOfPaZ3CywnV9ZEpxjwKIU3F3o7NeEucEln58SCRUmslA49BDjJGjRugX_/exec';
+
+    const ALL_SLOTS = [
+        '09:00', '09:30', '10:00', '10:30',
+        '11:00', '11:30', '12:00',
+        '15:00', '15:30', '16:00', '16:30',
+        '17:00', '17:30', '18:00'
+    ];
+
+    // Slots ocupados simulados (en producción vendrían de backend)
+    const BUSY_SLOTS = {
+        // 'YYYY-MM-DD': ['10:00', '11:00']
+    };
+
+    // Estado
+    let state = {
+        date: null,
+        time: null,
+        service: null,
+        name: null
+    };
+
+    // ===== CALENDARIO =====
+    const calendarEl = document.getElementById('calendar');
+    let calendar;
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        firstDay: 1,
+        height: 'auto',
+        headerToolbar: {
+            left: 'prev',
+            center: 'title',
+            right: 'next'
+        },
+        buttonText: {
+            today: 'Hoy'
+        },
+        validRange: {
+            start: new Date().toISOString().split('T')[0]
+        },
+        dayCellClassNames: function(arg) {
+            const classes = [];
+            const dow = arg.date.getDay();
+            // Domingos cerrados
+            if (dow === 0) classes.push('fc-day-disabled');
+            // Fechas pasadas
+            const today = new Date(); today.setHours(0,0,0,0);
+            if (arg.date < today) classes.push('fc-day-disabled');
+            return classes;
+        },
+        dateClick: function(info) {
+            // Ignorar si está deshabilitado
+            const dow = info.date.getDay();
+            if (dow === 0) return;
+            const today = new Date(); today.setHours(0,0,0,0);
+            if (info.date < today) return;
+
+            // Marcar seleccionado
+            document.querySelectorAll('.fc-day-selected').forEach(el => el.classList.remove('fc-day-selected'));
+            info.dayEl.classList.add('fc-day-selected');
+
+            // Guardar
+            state.date = info.dateStr;
+            state.time = null;
+            updateSummary();
+
+            // Renderizar slots
+            renderSlots(info.dateStr);
+        }
+    });
+    calendar.render();
+
+    // ===== RENDER SLOTS =====
+    function renderSlots(dateStr) {
+        const container = document.getElementById('slotsContainer');
+        const busy = BUSY_SLOTS[dateStr] || [];
+
+        container.innerHTML = `
+            <div class="time-slots">
+                ${ALL_SLOTS.map(slot => {
+                    const isBusy = busy.includes(slot);
+                    return `<div class="time-slot${isBusy ? ' disabled' : ''}" data-time="${slot}">${slot}</div>`;
+                }).join('')}
+            </div>
+        `;
+
+        container.querySelectorAll('.time-slot:not(.disabled)').forEach(el => {
+            el.addEventListener('click', function() {
+                container.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                state.time = this.dataset.time;
+                updateSummary();
+            });
+        });
+    }
+
+    // ===== FORMULARIO =====
+    const inputs = ['bkName', 'bkEmail', 'bkPhone', 'bkService', 'bkNotes'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateFromForm);
+            el.addEventListener('change', updateFromForm);
+        }
+    });
+
+    function updateFromForm() {
+        state.name = document.getElementById('bkName').value.trim();
+        state.service = document.getElementById('bkService').value;
+        updateSummary();
+    }
+
+    // ===== RESUMEN =====
+    function updateSummary() {
+        const sumDate = document.getElementById('sumDate');
+        const sumTime = document.getElementById('sumTime');
+        const sumName = document.getElementById('sumName');
+        const sumService = document.getElementById('sumService');
+
+        if (state.date) {
+            const d = new Date(state.date + 'T00:00:00');
+            const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            sumDate.textContent = d.toLocaleDateString('es-ES', opts);
+            sumDate.classList.remove('placeholder');
+        } else {
+            sumDate.textContent = 'Sin seleccionar';
+            sumDate.classList.add('placeholder');
+        }
+
+        sumTime.textContent = state.time || 'Sin seleccionar';
+        sumTime.classList.toggle('placeholder', !state.time);
+
+        sumName.textContent = state.name || 'Sin completar';
+        sumName.classList.toggle('placeholder', !state.name);
+
+        sumService.textContent = state.service || 'Sin seleccionar';
+        sumService.classList.toggle('placeholder', !state.service);
+
+        // Habilitar botón
+        const complete = state.date && state.time && state.name && state.service &&
+                         document.getElementById('bkEmail').value.trim() &&
+                         document.getElementById('bkPhone').value.trim();
+        document.getElementById('confirmBtn').disabled = !complete;
+    }
+
+    // ===== CONFIRMAR =====
+    document.getElementById('confirmBtn').addEventListener('click', async function() {
+        const btn = this;
+        const email = document.getElementById('bkEmail').value.trim();
+        const phone = document.getElementById('bkPhone').value.trim();
+        const notes = document.getElementById('bkNotes').value.trim();
+
+        // Validaciones finales
+        if (!state.date || !state.time || !state.name || !state.service || !email || !phone) {
+            showMessage('⚠️ Completa todos los campos obligatorios antes de confirmar.', 'warning');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showMessage('❌ El correo electrónico no es válido.', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+        try {
+            const params = new URLSearchParams({
+                tipo: 'cita',
+                fecha: state.date,
+                hora: state.time,
+                nombre: state.name,
+                email: email,
+                telefono: phone,
+                servicio: state.service,
+                notas: notes || '(sin notas)'
+            });
+
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: params.toString()
+            });
+
+            // Mostrar éxito
+            document.getElementById('okDate').textContent = document.getElementById('sumDate').textContent;
+            document.getElementById('okTime').textContent = state.time;
+            document.getElementById('okName').textContent = state.name;
+            document.getElementById('okService').textContent = state.service;
+
+            document.getElementById('bookingFlow').style.display = 'none';
+            document.getElementById('successScreen').classList.add('show');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } catch (err) {
+            console.error(err);
+            showMessage('❌ Hubo un error al enviar. Intenta de nuevo o escríbenos por WhatsApp.', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar Cita';
+        }
+    });
+
+    function showMessage(text, type) {
+        const box = document.getElementById('formMessage');
+        const colors = {
+            warning: { bg: 'rgba(245,158,11,0.1)', color: '#b45309' },
+            error: { bg: 'rgba(239,68,68,0.1)', color: '#b91c1c' },
+            success: { bg: 'rgba(22,163,74,0.1)', color: '#15803d' }
+        };
+        const c = colors[type] || colors.warning;
+        box.textContent = text;
+        box.style.background = c.bg;
+        box.style.color = c.color;
+        box.style.display = 'block';
+    }
+});
+</script>
+
+</body>
+</html>
